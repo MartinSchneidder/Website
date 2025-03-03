@@ -10,6 +10,5 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 ```npm run build```
 
 ```npx gh-pages -d dist```
-```asdasd```
 
 https://martinschneidder.github.io/Website/
