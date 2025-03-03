@@ -7,8 +7,8 @@ Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://
 
 # Website
 ## Publish
-'npm run build'
+´´´npm run build```
 
-''npx gh-pages -d dist''
+´´npx gh-pages -d dist´´
 
 https://martinschneidder.github.io/Website/
