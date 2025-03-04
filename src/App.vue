@@ -1,10 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from "./components/HelloWorld.vue";
 
 //PINIA
-import { useCounterStore2 } from './pinia/store';
-const counterstore = useCounterStore2()
-
+import { useCounterStore2 } from "./pinia/store";
+const counterstore = useCounterStore2();
 </script>
 
 <template>
@@ -25,7 +24,7 @@ const counterstore = useCounterStore2()
 
 <style scoped>
 .logo {
-  height: 6em;  
+  height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
