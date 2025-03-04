@@ -1,8 +1,17 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
+
+//PINIA
+import { useCounterStore2 } from './pinia/store';
+const counterstore = useCounterStore2()
+
 </script>
 
 <template>
+  <!-- PINIA -->
+  <!-- Access the state directly from the store -->
+  <div>Current Count: {{ counterstore.count2 }}</div>
+
   <div>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />

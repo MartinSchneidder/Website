@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "localSite (dev)": "vite",
+    "toGitPages (deploy)": "npm run build && npx gh-pages -d dist",
     "build": "vite build",
-    "preview": "vite preview",
-    
-    "deploy": "npm run build && npx gh-pages -d dist"
+    "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^3.0.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {
