@@ -1,25 +1,21 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
+import NavBar from "./components/NavBar.vue";
 
 //PINIA
-import { useCounterStore2 } from "./pinia/store";
-const counterstore = useCounterStore2();
+// import { useCounterStore2 } from "./pinia/store";
+// const counterstore = useCounterStore2();
 </script>
 
 <template>
   <!-- PINIA -->
   <!-- Access the state directly from the store -->
-  <div>Current Count: {{ counterstore.count2 }}</div>
+
+  <!-- <div>Current Count: {{ counterstore.count2 }}</div> -->
 
   <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <NavBar />
+    <router-view />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
@@ -34,5 +30,9 @@ const counterstore = useCounterStore2();
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+nav {
+  display: flex;
+  gap: 1rem;
 }
 </style>
