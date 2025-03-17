@@ -18,6 +18,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
+console.log("API Key:", import.meta.env.VITE_FIREBASE_API_KEY);
 const email = ref("");
 const password = ref("");
 

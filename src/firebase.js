@@ -3,13 +3,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC8WspggAJ7NYeCils7NGKk-BDfKw3lzUU",
-  authDomain: "brobank-d0269.firebaseapp.com",
-  projectId: "brobank-d0269",
-  storageBucket: "brobank-d0269.firebasestorage.app",
-  messagingSenderId: "332534888385",
-  appId: "1:332534888385:web:9f0f879472df456d36a140",
-  measurementId: "G-N8H87DWDNX",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
