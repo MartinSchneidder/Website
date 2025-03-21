@@ -2,9 +2,7 @@
 
 Vue 3 + Vite
 
-# Website
-
-## Publish
+# Publish
 
 `npm run build`
 
