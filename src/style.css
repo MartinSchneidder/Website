@@ -11,6 +11,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Sidebar */
+  --sidebar-width: 20vw; /* Variable für die Sidebar-Breite */
+  --sidebar-min-width: 10rem;
+  --sidebar-max-width: 20rem;
 }
 
 a {
@@ -24,10 +29,20 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  display: block;
+  padding: 0rem;
+  /* place-items: center; */
+  /* min-width: 320px; */
   min-height: 100vh;
+}
+#app {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  /* padding: 2rem; */
+  text-align: center;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1 {
@@ -56,13 +71,6 @@ button:focus-visible {
 
 .card {
   padding: 2em;
-}
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
 }
 
 @media (prefers-color-scheme: light) {

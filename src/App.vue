@@ -1,38 +1,63 @@
 <script setup>
-import NavBar from "./components/NavBar.vue";
+import { computed } from "vue";
+import { useAuthStore } from "@/pinia/authStore";
 
-//PINIA
-// import { useCounterStore2 } from "./pinia/store";
-// const counterstore = useCounterStore2();
+import NavBar from "./components/NavBar.vue";
+import LoginBar from "./components/LoginBar.vue";
+
+const authStore = useAuthStore();
+const user = computed(() => authStore.user);
 </script>
 
 <template>
-  <!-- PINIA -->
-  <!-- Access the state directly from the store -->
-
-  <!-- <div>Current Count: {{ counterstore.count2 }}</div> -->
-
-  <div>
-    <NavBar />
-    <router-view />
+  <div class="app-container">
+    <aside class="sidebar">
+      <NavBar v-if="user" />
+      <LoginBar v-else />
+    </aside>
+    <main class="content">
+      <router-view />
+    </main>
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-nav {
+.app-container {
   display: flex;
-  gap: 1rem;
+  align-items: stretch;
+  height: auto;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* 1/5 der Bildschirmbreite */
+  /* min-width: var(--sidebar-min-width);
+  max-width: var(--sidebar-max-width); */
+  width: clamp(
+    var(--sidebar-min-width),
+    var(--sidebar-width),
+    var(--sidebar-max-width)
+  );
+  background-color: #f4f4f446;
+  height: auto;
+  min-height: 100vh;
+  /* flex-grow: 1; Nimmt den restlichen Platz ein */
+}
+
+.content {
+  /* Platz für die Sidebar lassen */
+  margin-left: clamp(
+    var(--sidebar-min-width),
+    var(--sidebar-width),
+    var(--sidebar-max-width)
+  );
+
+  flex-grow: 1; /* Nimmt den restlichen Platz ein */
+  padding: 20px;
+  overflow-y: auto; /* Scrollbarer Inhalt */
 }
 </style>
