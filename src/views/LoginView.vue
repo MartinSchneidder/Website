@@ -1,6 +1,5 @@
 <template>
   <img class="logo" src="../assets/oncoming-fist-svgrepo-com.svg" alt="logo" />
-  <LoginBar />
 </template>
 
 <script setup>
