@@ -21,6 +21,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 import { ref } from "vue";
 import { auth } from "@/firebase";
 import {
@@ -51,10 +52,23 @@ async function register() {
 async function login() {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    router.push("/home"); // 🔥 Weiterleitung zur Startseite (HomeView)
-    alert("Erfolgreich angemeldet!");
+
+    // ✅ Erfolgsmeldung mit SweetAlert2
+    // Swal.fire({
+    //   icon: "success",
+    //   title: "Erfolgreich angemeldet!",
+    //   showConfirmButton: false,
+    //   timer: 1500,
+    // });
+
+    router.push("/home"); // 🔥 Weiterleitung zur Startseite
   } catch (error) {
-    console.error("Anmeldefehler:", error.message);
+    // ❌ Fehler mit SweetAlert2 anzeigen
+    Swal.fire({
+      icon: "error",
+      title: "Fehler",
+      text: error.message,
+    });
   }
 }
 </script>
