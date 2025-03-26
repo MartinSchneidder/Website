@@ -11,14 +11,20 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import { useAuthStore } from "@/pinia/authStore";
 import { computed } from "vue";
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 // Abonniere Änderungen des Benutzers
 const user = computed(() => authStore.user);
-const logout = authStore.logout;
+// Logout-Funktion mit Weiterleitung zur HomeView
+const logout = async () => {
+  await authStore.logout(); // Benutzer abmelden
+  router.push("/"); // 🔥 Nach dem Logout zur Startseite
+};
 </script>
 
 <style>

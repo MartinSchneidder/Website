@@ -20,6 +20,7 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { auth } from "@/firebase";
 import {
@@ -27,6 +28,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
+const router = useRouter();
 const email = ref("");
 const password = ref("");
 
@@ -49,6 +51,7 @@ async function register() {
 async function login() {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
+    router.push("/home"); // 🔥 Weiterleitung zur Startseite (HomeView)
     alert("Erfolgreich angemeldet!");
   } catch (error) {
     console.error("Anmeldefehler:", error.message);
