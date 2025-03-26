@@ -34,6 +34,7 @@ const user = computed(() => authStore.user);
   position: fixed;
   top: 0;
   left: 0;
+
   /* 1/5 der Bildschirmbreite */
   /* min-width: var(--sidebar-min-width);
   max-width: var(--sidebar-max-width); */
@@ -42,7 +43,8 @@ const user = computed(() => authStore.user);
     var(--sidebar-width),
     var(--sidebar-max-width)
   );
-  background-color: #f4f4f446;
+
+  background-color: #1a254646;
   height: auto;
   min-height: 100vh;
   /* flex-grow: 1; Nimmt den restlichen Platz ein */
