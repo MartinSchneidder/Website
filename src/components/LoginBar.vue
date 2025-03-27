@@ -1,7 +1,8 @@
 <template>
   <div class="container">
     <h1>LOGIN-Bar</h1>
-    <form @submit.prevent="login">
+
+    <form @submit.prevent="handleSubmit">
       <!-- E-Mail Input mit Floating Label -->
       <div class="input-group">
         <input v-model="email" id="email" type="email" required />
@@ -14,7 +15,30 @@
         <label :class="{ active: password }" for="password">Passwort</label>
       </div>
 
-      <input type="submit" value="Login" />
+      <!-- Registrierungsfelder mit sanfter Transition -->
+      <div class="register-fields" :class="{ expanded: isRegistering }">
+        <div class="input-group">
+          <input
+            v-model="confirmPassword"
+            id="confirmPassword"
+            type="password"
+            :required="isRegistering"
+          />
+          <label :class="{ active: confirmPassword }" for="confirmPassword"
+            >Passwort bestätigen</label
+          >
+        </div>
+      </div>
+
+      <!-- Buttons mit sanfter Transition -->
+      <div class="button-container" :class="{ shifted: isRegistering }">
+        <button type="submit">
+          {{ isRegistering ? "Registrieren" : "Login" }}
+        </button>
+        <button type="button" class="toggle-btn" @click="toggleRegister">
+          {{ isRegistering ? "Zurück zum Login" : "Registrieren" }}
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -32,9 +56,29 @@ import {
 const router = useRouter();
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref(""); // Bestätigungspasswort
+const isRegistering = ref(false); // Umschaltung Login/Registrierung
 
-// Benutzer registrieren
+// Login oder Registrierung ausführen
+async function handleSubmit() {
+  if (isRegistering.value) {
+    await register();
+  } else {
+    await login();
+  }
+}
+
+// Registrierung
 async function register() {
+  if (password.value !== confirmPassword.value) {
+    Swal.fire({
+      icon: "error",
+      title: "Fehler",
+      text: "Passwörter stimmen nicht überein!",
+    });
+    return;
+  }
+
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -42,34 +86,45 @@ async function register() {
       password.value
     );
     console.log("Erfolgreich registriert:", userCredential.user);
-    alert("Erfolgreich registriert!");
+    Swal.fire({
+      icon: "success",
+      title: "Registrierung erfolgreich!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    router.push("/home");
   } catch (error) {
-    console.error("Registrierungsfehler:", error.message);
-  }
-}
-
-// Benutzer anmelden
-async function login() {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-
-    // ✅ Erfolgsmeldung mit SweetAlert2
-    // Swal.fire({
-    //   icon: "success",
-    //   title: "Erfolgreich angemeldet!",
-    //   showConfirmButton: false,
-    //   timer: 1500,
-    // });
-
-    router.push("/home"); // 🔥 Weiterleitung zur Startseite
-  } catch (error) {
-    // ❌ Fehler mit SweetAlert2 anzeigen
     Swal.fire({
       icon: "error",
-      title: "Fehler",
+      title: "Registrierungsfehler",
       text: error.message,
     });
   }
+}
+
+// Login
+async function login() {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    Swal.fire({
+      icon: "success",
+      title: "Erfolgreich angemeldet!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    router.push("/home");
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Anmeldefehler",
+      text: error.message,
+    });
+  }
+}
+
+// Umschalten zwischen Login & Registrierung
+function toggleRegister() {
+  isRegistering.value = !isRegistering.value;
 }
 </script>
 
@@ -97,9 +152,7 @@ form {
 }
 
 input {
-  width: calc(
-    100% - 20px
-  ); /* Zieht das Padding (2x 10px) von der Gesamtbreite ab */
+  width: calc(100% - 20px);
   padding: 12px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -113,7 +166,6 @@ input:focus {
   outline: none;
 }
 
-/* Standard Label */
 label {
   position: absolute;
   top: 50%;
@@ -125,22 +177,70 @@ label {
   pointer-events: none;
 }
 
-/* Label bewegt sich nach oben, wenn Input gefüllt ist */
 input:focus + label,
 label.active {
   top: -10px;
-  /* font-size: 12px; */
-  /* color: #007bff; */
 }
 
-input[type="submit"] {
+/* Button Styling */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-top: 0px; */
+  transition: margin-top 0.3s ease;
+}
+
+/* Wenn die Registrierungsfelder sichtbar sind, verschieben sich die Buttons */
+.button-container.shifted {
+  margin-top: 2.5rem;
+}
+
+button {
   width: 100%;
+  padding: 10px;
   background-color: #007bff;
   color: white;
+  border: none;
   cursor: pointer;
+  margin-top: 2rem;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
 }
 
-input[type="submit"]:hover {
+button:hover {
   background-color: #0056b3;
+}
+
+/* Register/Umschalten-Button */
+.toggle-btn {
+  background: none;
+  color: #007bff;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  color: #ffffff;
+}
+
+/* Smooth Expand für Registrierungsfelder */
+.register-fields {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    height 0.4s ease-in-out,
+    opacity 0.4s ease-in-out;
+}
+
+.register-fields.expanded {
+  opacity: 1;
+  overflow: visible;
+  max-height: 100px; /* Genug Platz für das Feld*/
 }
 </style>
