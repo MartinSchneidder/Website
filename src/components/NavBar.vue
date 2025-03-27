@@ -3,13 +3,13 @@
     <h1 class="logo">Bro-Bank</h1>
     <p class="user">Eingeloggt als: {{ user.email }}</p>
 
+    <button class="logout-btn" @click="logout">🚪 Abmelden</button>
+
     <ul class="nav-links">
       <li><router-link to="/home">🏠 Home</router-link></li>
       <li><router-link to="/group">👥 Group</router-link></li>
       <li><router-link to="/sozial">💬 Sozial</router-link></li>
     </ul>
-
-    <button class="logout-btn" @click="logout">🚪 Abmelden</button>
   </nav>
 </template>
 
@@ -40,4 +40,54 @@ const logout = async () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem; /* Abstand zwischen den Links*/
+  list-style: none;
+  padding: 0;
+  margin-left: 20%; /* Platz nach links */
+  /* Damit sich die Links anpassen */
+  width: 100%;
+}
+
+.nav-links li {
+  position: relative;
+  width: 100%;
+}
+
+.nav-links li a {
+  display: flex;
+  /* LinkText zentriert */
+  justify-content: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Hintergrund-Element für aktive Links */
+.nav-links li a::before {
+  content: "";
+  position: absolute;
+  /* Deckt den ganzen Link-Bereich ab */
+  inset: 0;
+  width: 90%; /* Platz nach links, für margin 20% */
+  height: 100%;
+  background: #040315;
+  border-top-left-radius: 35px;
+  border-bottom-left-radius: 35px;
+  z-index: -1;
+  transform: scaleX(0); /* Startgröße: 0 */
+  transform-origin: right;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Aktivierter Link -> Hintergrund fährt smooth aus */
+.nav-links li .router-link-active::before {
+  transform: scaleX(1);
+}
+</style>

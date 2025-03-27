@@ -31,6 +31,12 @@ const user = computed(() => authStore.user);
 }
 
 .sidebar {
+  /* Gradient background */
+  background-image: linear-gradient(90deg, #140315, #340335);
+
+  /* Rounded top-right corner */
+  border-top-right-radius: 80px;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -44,10 +50,11 @@ const user = computed(() => authStore.user);
     var(--sidebar-max-width)
   );
 
-  background-color: #1a254646;
-  height: auto;
+  background-color: var(--color-sidebar-background);
   min-height: 100vh;
-  /* flex-grow: 1; Nimmt den restlichen Platz ein */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .content {
