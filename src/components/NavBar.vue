@@ -54,7 +54,7 @@ const logout = async () => {
 
 .nav-links li {
   position: relative;
-  width: 100%;
+  width: 90%; /* Platz nach links, für margin 20% */
 }
 
 .nav-links li a {
@@ -74,7 +74,7 @@ const logout = async () => {
   position: absolute;
   /* Deckt den ganzen Link-Bereich ab */
   inset: 0;
-  width: 90%; /* Platz nach links, für margin 20% */
+  width: 100%;
   height: 100%;
   background: #040315;
   border-top-left-radius: 35px;
