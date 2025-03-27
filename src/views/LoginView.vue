@@ -1,5 +1,11 @@
 <template>
-  <img class="logo" src="../assets/oncoming-fist-svgrepo-com.svg" alt="logo" />
+  <div class="logo-container">
+    <img
+      class="logo"
+      src="../assets/oncoming-fist-svgrepo-com.svg"
+      alt="logo"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -7,20 +13,45 @@ import LoginBar from "../components/LoginBar.vue";
 </script>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-nav {
+/* Container für das Logo */
+.logo-container {
+  position: relative;
   display: flex;
-  gap: 1rem;
+  justify-content: center; /* Zentriert das Logo horizontal */
+  align-items: center; /* Zentriert das Logo vertikal */
+  width: 100%; /* Breite des Containers */
+  height: 100vh; /* Höhe auf automatisch gesetzt, damit es den Inhalt nicht überschreitet */
+  /* padding: 0px; */
+  /* margin: 0px; */
+  overflow: hidden; /* Verhindert Scrollbars */
+  box-sizing: border-box; /* Verhindert, dass padding den Inhalt verschiebt */
+}
+
+/* Das Logo */
+.logo {
+  height: 20em; /* Größe des Logos */
+  width: auto; /* Automatische Breite */
+  transition:
+    transform 0.3s ease-in-out,
+    filter 0.3s ease-in-out;
+  will-change: filter, transform;
+  filter: drop-shadow(0 0 10px rgba(100, 100, 255, 0.5));
+  animation: pulseShadow 4s infinite ease-in-out;
+}
+
+/* Pulsierende Animation für den Schlagschatten */
+@keyframes pulseShadow {
+  0% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px #040315); /* Dunkles Blau */
+  }
+  50% {
+    transform: scale(1.1); /* Etwas größer */
+    filter: drop-shadow(0 0 1px #7d4c7e); /* Helles Blau */
+  }
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 10px #040315); /* Dunkles Blau */
+  }
 }
 </style>

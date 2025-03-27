@@ -66,7 +66,6 @@ const user = computed(() => authStore.user);
   );
 
   flex-grow: 1; /* Nimmt den restlichen Platz ein */
-  padding: 20px;
   overflow-y: auto; /* Scrollbarer Inhalt */
 }
 </style>
