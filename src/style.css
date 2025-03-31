@@ -4,7 +4,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  background-color: #040315;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,7 +16,11 @@
   --sidebar-max-width: 20rem;
 
   /* Colors */
-  --color-sidebar-background: #100025;
+  --color-sidebar-background: linear-gradient(90deg, #0f0f0f, #272727);
+  /* --color-sidebar-background: linear-gradient(90deg, #140315, #340335); */
+  --color-background: #0f0f0f;
+  /* --color-background: #040315; */
+  background-color: var(--color-background);
 }
 
 a {
@@ -75,10 +78,12 @@ button:focus-visible {
   padding: 2em;
 }
 
+/* LIGHT MODE */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    --color-sidebar-background: linear-gradient(90deg, #ffffff, #d8d8d8);
+    --color-background: #ffffff;
   }
   a:hover {
     color: #747bff;

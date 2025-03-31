@@ -1,7 +1,7 @@
 <template>
   <nav class="sidebar">
     <h1 class="logo">Bro-Bank</h1>
-    <p class="user">Eingeloggt als: {{ user.email }}</p>
+    <p class="user">Eingeloggt: {{ user.email }}</p>
 
     <button class="logout-btn" @click="logout">🚪 Abmelden</button>
 
@@ -76,7 +76,7 @@ const logout = async () => {
   inset: 0;
   width: 100%;
   height: 100%;
-  background: #040315;
+  background: var(--color-background);
   border-top-left-radius: 35px;
   border-bottom-left-radius: 35px;
   z-index: -1;

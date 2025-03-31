@@ -32,8 +32,7 @@ const user = computed(() => authStore.user);
 
 .sidebar {
   /* Gradient background */
-  background-image: linear-gradient(90deg, #140315, #340335);
-
+  background-image: var(--color-sidebar-background);
   /* Rounded top-right corner */
   border-top-right-radius: 80px;
 
@@ -50,7 +49,7 @@ const user = computed(() => authStore.user);
     var(--sidebar-max-width)
   );
 
-  background-color: var(--color-sidebar-background);
+  /* background-color: var(--color-sidebar-background); */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
