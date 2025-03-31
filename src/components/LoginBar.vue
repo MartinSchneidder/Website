@@ -111,6 +111,13 @@ async function login() {
       title: "Erfolgreich angemeldet!",
       showConfirmButton: false,
       timer: 1500,
+      // iconColor: "red",
+      // background: "grey",
+      //     backdrop: `
+      //   url("src/assets/spider.gif")
+      //   left top
+      //   no-repeat
+      // `,
     });
     router.push("/home");
   } catch (error) {
