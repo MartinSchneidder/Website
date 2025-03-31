@@ -54,4 +54,9 @@ import LoginBar from "../components/LoginBar.vue";
     filter: drop-shadow(0 0 10px #040315); /* Dunkles Blau */
   }
 }
+@media screen and (max-width: 500px) {
+  .logo {
+    height: 10em;
+  }
+}
 </style>

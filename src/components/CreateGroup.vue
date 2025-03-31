@@ -27,7 +27,12 @@ const handleCreateGroup = async () => {
 <template>
   <div class="container">
     <h2>Neue Gruppe erstellen</h2>
-    <input v-model="groupName" type="text" placeholder="Gruppenname" />
+    <input
+      v-model="groupName"
+      name="groupName"
+      type="text"
+      placeholder="Gruppenname"
+    />
     <button @click="handleCreateGroup">Erstellen</button>
 
     <p v-if="successMessage" class="success">{{ successMessage }}</p>

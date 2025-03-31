@@ -1,9 +1,14 @@
 <template>
   <div>
     <h2>Geld senden</h2>
-    <input v-model="amount" placeholder="Betrag" type="number" />
-    <input v-model="friend" placeholder="Empfänger" type="text" />
-    <input v-model="comment" placeholder="Kommentar" type="text" />
+    <input v-model="amount" name="amount" placeholder="Betrag" type="number" />
+    <input v-model="friend" name="friend" placeholder="Empfänger" type="text" />
+    <input
+      v-model="comment"
+      name="comment"
+      placeholder="Kommentar"
+      type="text"
+    />
     <button @click="sendMoney">Senden</button>
   </div>
 </template>
