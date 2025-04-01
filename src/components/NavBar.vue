@@ -3,13 +3,13 @@
     <h1 class="logo">Bro-Bank</h1>
     <p class="user">Eingeloggt: {{ user.email }}</p>
 
-    <button class="logout-btn" @click="logout">🚪 Abmelden</button>
-
     <ul class="nav-links">
       <li><router-link to="/home">🏠 Home</router-link></li>
       <li><router-link to="/group">👥 Group</router-link></li>
       <li><router-link to="/sozial">💬 Sozial</router-link></li>
     </ul>
+
+    <button class="logout-btn" @click="logout">🚪 Abmelden</button>
   </nav>
 </template>
 
@@ -84,11 +84,16 @@ const logout = async () => {
   transform-origin: right;
 
   transition: transform 1s ease;
-  /* transition: transform 1s cubic-bezier(1, -0.5, 0.3, 1.6); */
 }
 
 /* Aktivierter Link -> Hintergrund fährt smooth aus */
 .nav-links li .router-link-active::before {
   transform: scaleX(1);
+}
+
+.logout-btn {
+  margin-top: auto;
+  margin-bottom: 5rem;
+  background: #0000;
 }
 </style>

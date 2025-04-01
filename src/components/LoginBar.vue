@@ -62,7 +62,8 @@ const isRegistering = ref(false); // Umschaltung Login/Registrierung
 const Toast = Swal.mixin({
   toast: true,
   position: "bottom-left",
-  background: "url(src/assets/spider.gif)",
+  // background: "url(src/assets/spider.gif)",
+  // background: "#12345678",
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: true,
