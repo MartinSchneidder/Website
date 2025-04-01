@@ -59,6 +59,19 @@ const password = ref("");
 const confirmPassword = ref(""); // Bestätigungspasswort
 const isRegistering = ref(false); // Umschaltung Login/Registrierung
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-left",
+  background: "url(src/assets/spider.gif)",
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
+
 // Login oder Registrierung ausführen
 async function handleSubmit() {
   if (isRegistering.value) {
@@ -71,10 +84,11 @@ async function handleSubmit() {
 // Registrierung
 async function register() {
   if (password.value !== confirmPassword.value) {
-    Swal.fire({
+    Toast.fire({
       icon: "error",
       title: "Fehler",
       text: "Passwörter stimmen nicht überein!",
+      timer: false,
     });
     return;
   }
@@ -86,7 +100,7 @@ async function register() {
       password.value
     );
     console.log("Erfolgreich registriert:", userCredential.user);
-    Swal.fire({
+    Toast.fire({
       icon: "success",
       title: "Registrierung erfolgreich!",
       showConfirmButton: false,
@@ -94,7 +108,7 @@ async function register() {
     });
     router.push("/home");
   } catch (error) {
-    Swal.fire({
+    Toast.fire({
       icon: "error",
       title: "Registrierungsfehler",
       text: error.message,
@@ -106,25 +120,18 @@ async function register() {
 async function login() {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    Swal.fire({
+    Toast.fire({
       icon: "success",
-      title: "Erfolgreich angemeldet!",
-      showConfirmButton: false,
-      timer: 1500,
-      // iconColor: "red",
-      // background: "grey",
-      //     backdrop: `
-      //   url("src/assets/spider.gif")
-      //   left top
-      //   no-repeat
-      // `,
+      title: "Signed in successfully",
     });
+
     router.push("/home");
   } catch (error) {
-    Swal.fire({
+    Toast.fire({
       icon: "error",
       title: "Anmeldefehler",
       text: error.message,
+      timer: false,
     });
   }
 }
