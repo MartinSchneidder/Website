@@ -1,6 +1,6 @@
 <!-- GroupView -->
 <template>
-  <h1>Group</h1>
+  <h1>GROUP</h1>
   <CreateGroup />
   <GroupList />
   <TransactionForm />

@@ -20,6 +20,7 @@
   /* --color-sidebar-background: linear-gradient(90deg, #140315, #340335); */
   --color-background: #0f0f0f;
   /* --color-background: #040315; */
+  --color-variant1: #fcf3d6;
   background-color: var(--color-background);
 }
 
@@ -84,6 +85,7 @@ button:focus-visible {
     color: #213547;
     --color-sidebar-background: linear-gradient(90deg, #ffffff, #f3f3f3);
     --color-background: #ffffff;
+    --color-variant1: #fcf3d6;
   }
   a:hover {
     color: #747bff;
