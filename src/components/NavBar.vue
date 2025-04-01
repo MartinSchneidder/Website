@@ -83,7 +83,8 @@ const logout = async () => {
   transform: scaleX(0); /* Startgröße: 0 */
   transform-origin: right;
 
-  transition: transform 1s cubic-bezier(1, -0.5, 0.3, 1.6);
+  transition: transform 1s ease;
+  /* transition: transform 1s cubic-bezier(1, -0.5, 0.3, 1.6); */
 }
 
 /* Aktivierter Link -> Hintergrund fährt smooth aus */

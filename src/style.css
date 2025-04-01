@@ -82,7 +82,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    --color-sidebar-background: linear-gradient(90deg, #ffffff, #f1f1f1);
+    --color-sidebar-background: linear-gradient(90deg, #ffffff, #f3f3f3);
     --color-background: #ffffff;
   }
   a:hover {
