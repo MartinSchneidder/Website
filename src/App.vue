@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useAuthStore } from "@/pinia/authStore";
 
 import NavBar from "./components/NavBar.vue";
@@ -7,15 +7,30 @@ import LoginBar from "./components/LoginBar.vue";
 
 const authStore = useAuthStore();
 const user = computed(() => authStore.user);
+
+const isCollapsed = ref(false); // Zustand für die Sidebar
+
+// Funktion zum Ein- und Ausklappen
+const toggleSidebar = () => {
+  isCollapsed.value = !isCollapsed.value;
+};
 </script>
 
 <template>
   <div class="app-container">
-    <aside class="sidebar">
+    <aside class="sidebar" :class="{ collapsed: isCollapsed }">
+      <button
+        v-if="user"
+        class="toggle-btn"
+        :class="{ collapsed: isCollapsed }"
+        @click="toggleSidebar"
+      >
+        {{ isCollapsed ? "⮚⮚⮚" : "⮘⮘⮘" }}
+      </button>
       <NavBar v-if="user" />
       <LoginBar v-else />
     </aside>
-    <main class="content">
+    <main class="content" :class="{ expanded: isCollapsed }">
       <router-view />
     </main>
   </div>
@@ -32,13 +47,12 @@ const user = computed(() => authStore.user);
 
 .sidebar {
   /* Gradient background */
-  background-image: var(--color-sidebar-background);
+  background: var(--color-sidebar-background);
   /* Rounded top-right corner */
   border-top-right-radius: 80px;
-
   position: fixed;
-  top: 0;
-  left: 0;
+  /* top: 0;
+  left: 0; */
 
   /* 1/5 der Bildschirmbreite */
   /* min-width: var(--sidebar-min-width);
@@ -54,6 +68,42 @@ const user = computed(() => authStore.user);
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: margin-left 0.5s;
+}
+
+/* Eingeklappte Sidebar */
+.sidebar.collapsed {
+  margin-left: calc(
+    -1 *
+      clamp(
+        var(--sidebar-min-width),
+        var(--sidebar-width),
+        var(--sidebar-max-width)
+      )
+  ); /* Komplett nach links schieben */
+}
+/* Button zum Ein-/Ausklappen */
+.toggle-btn {
+  position: fixed;
+  top: -5px;
+  left: -5px;
+  width: 5rem;
+  z-index: 1000;
+  background-color: transparent;
+
+  border: none;
+  outline: none;
+  /* border: var(--color-shadow) 2px solid; */
+  /* border-radius: 50%; */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Button verschiebt sich mit der Sidebar */
+.toggle-btn.collapsed {
+  background-color: #f3f3f3;
+  border: var(--color-shadow) 2px solid;
+  margin: 10px;
 }
 
 .content {
@@ -66,5 +116,8 @@ const user = computed(() => authStore.user);
 
   flex-grow: 1; /* Nimmt den restlichen Platz ein */
   overflow-y: auto; /* Scrollbarer Inhalt */
+}
+.content.expanded {
+  margin-left: 0;
 }
 </style>

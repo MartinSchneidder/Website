@@ -86,6 +86,7 @@ button:focus-visible {
     --color-sidebar-background: linear-gradient(90deg, #ffffff, #f3f3f3);
     --color-background: #ffffff;
     --color-variant1: #fcf3d6;
+    --color-shadow: #11111111;
   }
   a:hover {
     color: #747bff;

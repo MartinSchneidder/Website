@@ -92,8 +92,13 @@ const logout = async () => {
 }
 
 .logout-btn {
+  padding: 0.5rem;
   margin-top: auto;
   margin-bottom: 5rem;
   background: #0000;
+  border: var(--color-shadow) 2px solid;
+}
+.logout-btn:hover {
+  background-color: var(--color-shadow);
 }
 </style>
