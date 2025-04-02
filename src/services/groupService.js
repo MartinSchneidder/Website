@@ -12,7 +12,8 @@ import {
 } from "firebase/firestore";
 
 //Gruppe erstellen
-export async function createGroup(name) {
+// Der Name wird auch initial das Codeword zum joinen einer Gruppe
+export async function createGroup(name, codeword) {
   if (!auth.currentUser) return;
 
   try {
@@ -20,6 +21,7 @@ export async function createGroup(name) {
       name,
       ownerId: auth.currentUser.uid,
       members: [auth.currentUser.uid],
+      codeword: codeword,
       createdAt: serverTimestamp(),
     });
 

@@ -1,5 +1,9 @@
+<!-- NEW GroupView -->
 <template>
-  <h1>SOZIAL</h1>
+  <h1>Neue Gruppe</h1>
+  <CreateGroup></CreateGroup>
 </template>
-<script scoped></script>
-<style scoped></style>
+
+<script setup>
+import CreateGroup from "../components/CreateGroup.vue";
+</script>

@@ -102,7 +102,7 @@ const toggleSidebar = () => {
 /* Button verschiebt sich mit der Sidebar */
 .toggle-btn.collapsed {
   background-color: #f3f3f3;
-  border: var(--color-shadow) 2px solid;
+  /* border: var(--color-shadow) 2px solid; */
   margin: 10px;
 }
 
