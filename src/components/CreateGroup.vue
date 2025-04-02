@@ -1,3 +1,19 @@
+<template>
+  <div class="container">
+    <h2>Neue Gruppe erstellen</h2>
+    <input
+      v-model="groupName"
+      name="groupName"
+      type="text"
+      placeholder="Gruppenname"
+    />
+    <button @click="handleCreateGroup">Erstellen</button>
+
+    <p v-if="successMessage" class="success">{{ successMessage }}</p>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>
+</template>
+
 <script setup>
 import { ref } from "vue";
 import { createGroup } from "@/services/groupService.js";
@@ -24,22 +40,6 @@ const handleCreateGroup = async () => {
 };
 </script>
 
-<template>
-  <div class="container">
-    <h2>Neue Gruppe erstellen</h2>
-    <input
-      v-model="groupName"
-      name="groupName"
-      type="text"
-      placeholder="Gruppenname"
-    />
-    <button @click="handleCreateGroup">Erstellen</button>
-
-    <p v-if="successMessage" class="success">{{ successMessage }}</p>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-  </div>
-</template>
-
 <style scoped>
 .container {
   max-width: 400px;
@@ -48,6 +48,11 @@ const handleCreateGroup = async () => {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+@media screen and (max-width: 650px) {
+  .container {
+    margin: 20px 20px;
+  }
 }
 input {
   width: 100%;

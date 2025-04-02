@@ -1,7 +1,7 @@
 <template>
-  <div class="join-container">
-    <h1>Gruppe beitreten</h1>
-    <input v-model="codeword" placeholder="Codewort eingeben" />
+  <div class="container">
+    <h2>Gruppe beitreten</h2>
+    <input v-model="codeword" name="codeword" placeholder="Codewort eingeben" />
     <button @click="joinGroup">Beitreten</button>
 
     <p v-if="successMessage" class="success">{{ successMessage }}</p>
@@ -41,24 +41,40 @@ const joinGroup = async () => {
 </script>
 
 <style scoped>
-.join-container {
-  text-align: center;
+.container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
-
+@media screen and (max-width: 650px) {
+  .container {
+    margin: 20px 20px;
+  }
+}
 input {
-  padding: 0.5rem;
-  margin: 0.5rem;
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
-
 button {
-  padding: 0.5rem;
+  background: #42b983;
+  color: white;
+  border: none;
+  padding: 10px;
   cursor: pointer;
+  border-radius: 4px;
 }
-
+button:hover {
+  background: #369f74;
+}
 .success {
   color: green;
 }
-
 .error {
   color: red;
 }

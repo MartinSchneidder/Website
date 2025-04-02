@@ -1,7 +1,6 @@
-<!-- NEW GroupView -->
+<!-- NewGroupView -->
 <template>
-  <h1>Neue Gruppe</h1>
-  <CreateGroup></CreateGroup>
+  <CreateGroup />
   <JoinGroup />
 </template>
 
