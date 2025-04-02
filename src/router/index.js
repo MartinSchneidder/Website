@@ -8,7 +8,13 @@ const routes = [
   // { path: "/", name: "home", component: HomeView },
   { path: "/", name: "login", component: LoginView },
   { path: "/home", name: "home", component: HomeView },
-  { path: "/group", name: "group", component: GroupView },
+  { path: "/group", name: "groupview", component: GroupView }, //NUTZEN?
+  {
+    path: "/group/:groupId",
+    name: "GroupView",
+    component: GroupView,
+    props: true,
+  }, // Dynamische Route für Gruppen
   { path: "/newgroups", name: "newgroups", component: NewGroupsView },
 ];
 

@@ -9,6 +9,7 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 
 //Gruppe erstellen
@@ -86,5 +87,60 @@ export async function joinGroupByCode(codeword) {
   } catch (error) {
     console.error("Fehler beim Gruppenbeitritt:", error);
     throw error;
+  }
+}
+
+export async function getGroupById(groupId) {
+  if (!groupId) {
+    console.error("Fehler: Keine groupId erhalten.");
+    return null;
+  }
+
+  try {
+    const groupRef = doc(db, "groups", groupId);
+    const groupSnap = await getDoc(groupRef);
+
+    if (groupSnap.exists()) {
+      return { id: groupSnap.id, ...groupSnap.data() };
+    } else {
+      console.warn("Gruppe nicht gefunden:", groupId);
+      return null;
+    }
+  } catch (error) {
+    console.error("Fehler beim Laden der Gruppe:", error);
+    return null;
+  }
+}
+
+// Mitglieder einer Gruppe abrufen
+export async function getGroupMembers(groupId) {
+  const groupRef = doc(db, "groups", groupId);
+
+  try {
+    const groupSnap = await getDoc(groupRef);
+
+    if (!groupSnap.exists()) {
+      console.error("Gruppe existiert nicht!");
+      return [];
+    }
+
+    const groupData = groupSnap.data();
+    const memberIds = groupData.members || [];
+
+    // Alle Nutzerdaten abrufen
+    const memberPromises = memberIds.map(async (userId) => {
+      const userRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userRef);
+      return userSnap.exists()
+        ? { id: userId, name: userSnap.data().username }
+        : null;
+    });
+
+    // Warten, bis alle Anfragen abgeschlossen sind
+    const members = (await Promise.all(memberPromises)).filter(Boolean);
+    return members;
+  } catch (error) {
+    console.error("Fehler beim Abrufen der Gruppenmitglieder:", error);
+    return [];
   }
 }

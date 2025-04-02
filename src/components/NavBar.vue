@@ -5,7 +5,7 @@
 
     <ul class="nav-links">
       <li><router-link to="/home">🏠 Home</router-link></li>
-      <li><router-link to="/group">👥 Group</router-link></li>
+      <!-- <li><router-link to="/group">👥 Group</router-link></li> -->
       <li><router-link to="/newgroups">💬 Finde Bros</router-link></li>
     </ul>
 
