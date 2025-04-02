@@ -47,11 +47,12 @@
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import { ref } from "vue";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const router = useRouter();
 const email = ref("");
@@ -100,6 +101,12 @@ async function register() {
       email.value,
       password.value
     );
+    const user = userCredential.user;
+    // Speichere die E-Mail als Benutzername in Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      username: email.value, // Hier wird die E-Mail als Benutzername gespeichert
+    });
+
     console.log("Erfolgreich registriert:", userCredential.user);
     Toast.fire({
       icon: "success",
