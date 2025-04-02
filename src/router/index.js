@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import GroupView from "../views/GroupView.vue";
 import LoginView from "../views/LoginView.vue";
-import NewGroupsView from "../views/NewGroups.vue";
+import NewGroupsView from "../views/NewGroupsView.vue";
 
 const routes = [
   // { path: "/", name: "home", component: HomeView },
