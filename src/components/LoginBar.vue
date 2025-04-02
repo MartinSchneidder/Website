@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>LOGIN-Bar</h1>
+    <h1 class="headline">Bro-Bank</h1>
 
     <form @submit.prevent="handleSubmit">
       <!-- E-Mail Input mit Floating Label -->
@@ -144,6 +144,9 @@ function toggleRegister() {
 </script>
 
 <style scoped>
+.headline {
+  margin-top: 2rem;
+}
 .container {
   display: flex;
   flex-direction: column;

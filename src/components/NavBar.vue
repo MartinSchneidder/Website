@@ -1,6 +1,6 @@
 <template>
   <nav class="sidebar">
-    <h1 class="logo">Bro-Bank</h1>
+    <h1 class="headline">Bro-Bank</h1>
     <p class="user">Eingeloggt: {{ user.email }}</p>
 
     <ul class="nav-links">
@@ -41,6 +41,9 @@ const logout = async () => {
 </script>
 
 <style scoped>
+.headline {
+  margin-top: 2rem;
+}
 .nav-links {
   display: flex;
   flex-direction: column;
