@@ -56,3 +56,35 @@ export async function getUserGroups(userId) {
 
   return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
+
+export async function joinGroupByCode(codeword) {
+  try {
+    // Gruppe mit dem passenden Codewort suchen
+    const groupsRef = collection(db, "groups");
+    const q = query(groupsRef, where("codeword", "==", codeword));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return false; // Keine passende Gruppe gefunden
+    }
+
+    const groupDoc = querySnapshot.docs[0];
+    const groupId = groupDoc.id;
+    const user = auth.currentUser;
+
+    if (!user) {
+      throw new Error("Kein angemeldeter Nutzer.");
+    }
+
+    // Nutzer der Gruppe hinzufügen
+    const groupRef = doc(db, "groups", groupId);
+    await updateDoc(groupRef, {
+      members: [...(groupDoc.data().members || []), user.uid],
+    });
+
+    return true; // Erfolg
+  } catch (error) {
+    console.error("Fehler beim Gruppenbeitritt:", error);
+    throw error;
+  }
+}
