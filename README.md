@@ -1,4 +1,4 @@
-# Bro-Bank – Die beste Art, deine Bros
+# Bro-Bank – Die beste Art, mit deinen Bros im Reinen zu bleiben
 
 Mit **Bro-Bank** kannst du ganz unkompliziert imaginäre 'Geldwerte' im Freundeskreis hin- und herschieben – sei es für das letzte Bier, das Taxi nach Hause oder den Pizzaschulden-Ausgleich. Keine peinlichen Nachfragen mehr nach Kleinstbeträgen, keine vergessenen Schulden: **Bro-Bank sorgt für Transparenz und Fairness unter echten Bros.**
 
