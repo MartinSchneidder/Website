@@ -4,7 +4,8 @@
     <p>{{ group.description }}</p>
     <!-- <TransactionForm /> -->
     <TransactionForm2 :members="groupMembers" />
-    <BalanceChart />
+    <TransactionList />
+    <!-- <BalanceChart /> -->
   </div>
 
   <div v-else class="loading">
@@ -21,6 +22,7 @@ import { getGroupById } from "@/services/groupService.js";
 import TransactionForm from "../components/TransactionForm.vue";
 import BalanceChart from "../components/BalanceChart.vue";
 import TransactionForm2 from "../components/TransactionForm2.vue";
+import TransactionList from "../components/TransactionList.vue";
 
 const route = useRoute();
 const group = ref(null);

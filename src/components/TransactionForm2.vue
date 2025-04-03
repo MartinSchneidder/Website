@@ -13,6 +13,7 @@
       />
       <label :for="'member-' + member.id">{{ member.name }}</label>
     </div>
+
     <!-- Betrag eingeben -->
     <label>Betrag:</label>
     <input type="number" v-model="amount" placeholder="€ Betrag" required />
@@ -32,39 +33,41 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
+import { useTransactionStore } from "@/pinia/transactionStore";
+import { useRoute } from "vue-router";
 
-// Props für Mitglieder-Liste (wird von der übergeordneten Komponente übergeben)
 const props = defineProps({
-  members: Array, // Liste der Mitglieder in der Gruppe
+  members: Array, // Mitglieder der Gruppe
 });
 
-// Reaktive Variablen
-const selectedMembers = ref([]); // Ausgewählte Mitglieder
-const amount = ref(""); // Betrag
-const comment = ref(""); // Kommentar
-const transferType = ref("send"); // "send" oder "receive"
+const transactionStore = useTransactionStore();
+const route = useRoute();
+const groupId = ref(route.params.groupId); // Aktuelle Gruppen-ID
 
-// Funktion: Transfer-Richtung umschalten
+const selectedMembers = ref([]);
+const amount = ref("");
+const comment = ref("");
+const transferType = ref("send");
+
 const toggleTransferType = () => {
   transferType.value = transferType.value === "send" ? "receive" : "send";
 };
 
-// Funktion: Transaktion speichern
-const submitTransaction = () => {
+const submitTransaction = async () => {
   if (selectedMembers.value.length === 0) {
     alert("Bitte Empfänger auswählen!");
     return;
   }
 
-  console.log("Neue Transaktion:", {
+  const transaction = {
     members: selectedMembers.value,
     amount: amount.value,
     comment: comment.value,
     type: transferType.value,
-  });
+  };
 
-  // TODO: Speichern der Transaktion in Firebase oder State-Management
+  await transactionStore.addTransaction(groupId.value, transaction);
   alert("Transaktion gespeichert!");
 };
 </script>
