@@ -132,7 +132,7 @@ export async function getGroupMembers(groupId) {
       const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
       return userSnap.exists()
-        ? { id: userId, name: userSnap.data().username }
+        ? { id: userId, username: userSnap.data().username }
         : null;
     });
 
