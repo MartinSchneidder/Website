@@ -4,12 +4,15 @@
 
     <!-- Mitglieder auswählen -->
     <label>Empfänger auswählen:</label>
-    <select v-model="selectedMembers" multiple>
-      <option v-for="member in members" :key="member.id" :value="member.id">
-        {{ member.name }}
-      </option>
-    </select>
-
+    <div v-for="member in members" :key="member.id" class="custom-checkbox">
+      <input
+        type="checkbox"
+        :id="'member-' + member.id"
+        v-model="selectedMembers"
+        :value="member.id"
+      />
+      <label :for="'member-' + member.id">{{ member.name }}</label>
+    </div>
     <!-- Betrag eingeben -->
     <label>Betrag:</label>
     <input type="number" v-model="amount" placeholder="€ Betrag" required />
@@ -71,10 +74,6 @@ form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-select {
-  height: 80px; /* Mehrfachauswahl besser sichtbar */
 }
 
 button {
