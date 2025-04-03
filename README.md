@@ -4,9 +4,9 @@ Mit **Bro-Bank** kannst du ganz unkompliziert imaginäre 'Geldwerte' im Freundes
 
 ## 📌 Features
 
-🤜🏻 **Schnelles & einfaches 'Geld' versenden** im Freundeskreis
-🤜🏻 **Klare Übersicht** über offene Beträge und Gefälligkeiten
-🤜🏻 **Erinnerungen für ausstehende Zahlungen** – ohne unangenehme Gespräche
+🤜🏻 **Schnelles & einfaches Geld versenden** im Freundeskreis  
+🤜🏻 **Klare Übersicht** über offene Beträge und Gefälligkeiten  
+🤜🏻 **Erinnerungen für ausstehende Zahlungen** – ohne unangenehme Gespräche  
 🤜🏻 **Gruppen-Ansicht** für gemeinsame Ausgaben
 
 **Bleib immer im Plus – als echter Bro!** 😎
