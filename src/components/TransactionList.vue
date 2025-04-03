@@ -5,8 +5,10 @@
       <li v-for="transaction in transactions" :key="transaction.id">
         <strong>{{ transaction.type === "send" ? "➡️" : "🔄" }}</strong>
         {{ transaction.amount }}€ an
-        <span v-if="memberNames[transaction.id]">
-          {{ memberNames[transaction.id].join(", ") }}
+        <span v-if="transaction.members">
+          <span v-for="memberId in transaction.members" :key="memberId">
+            {{ memberNames[memberId] || "❓" }}
+          </span>
         </span>
         <em v-if="transaction.comment">({{ transaction.comment }})</em>
       </li>
@@ -17,7 +19,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
-import { getUserById } from "@/services/userService";
+import { getGroupMembers } from "@/services/groupService";
 import { useRoute } from "vue-router";
 
 const transactionStore = useTransactionStore();
@@ -27,39 +29,36 @@ const groupId = route.params.groupId;
 const transactions = computed(() => transactionStore.transactions);
 const memberNames = ref({});
 
-// Funktion: Mitgliedsnamen für jede Transaktion laden
-const loadMemberNames = async (transactions) => {
-  console.log("🔄 Lade Mitgliedsnamen...");
+// 🛠️ Mitglieder abrufen & Debugging
+const loadGroupMembers = async () => {
+  console.log("🔄 Lade Mitglieder der Gruppe für ID:", groupId);
+
+  const members = await getGroupMembers(groupId);
+  console.log("📌 Mitglieder erhalten:", members);
 
   const namesMap = {};
-  for (const transaction of transactions) {
-    const names = await Promise.all(
-      transaction.members.map(async (id) => {
-        const user = await getUserById(id);
-        return user ? user.username : "Unbekannt";
-      })
-    );
-
-    namesMap[transaction.id] = names;
+  for (const member of members) {
+    namesMap[member.id] = member.username;
   }
 
   memberNames.value = namesMap;
-  console.log("✅ Mitgliedsnamen geladen:", memberNames.value);
+  console.log("✅ Mitgliedsnamen gespeichert:", memberNames.value);
 };
 
-// Aktualisiere Mitgliedsnamen nur bei Änderungen in `transactions`
+// 🔄 Beobachte `transactions` und lade Namen
 watch(
   transactions,
-  (newTransactions) => {
+  async (newTransactions) => {
     if (newTransactions.length > 0) {
-      loadMemberNames(newTransactions);
+      await loadGroupMembers();
     }
   },
-  { deep: true, immediate: true }
+  { immediate: true }
 );
 
-// Beim Laden der Komponente die Transaktionen und Namen abrufen
+// Beim Laden der Komponente die Daten abrufen
 onMounted(async () => {
   await transactionStore.fetchTransactions(groupId);
+  await loadGroupMembers();
 });
 </script>
