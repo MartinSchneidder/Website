@@ -9,7 +9,7 @@ Mit **Bro-Bank** kannst du ganz unkompliziert imaginäre 'Geldwerte' im Freundes
 🤜🏻 **Erinnerungen für ausstehende Zahlungen** – ohne unangenehme Gespräche  
 🤜🏻 **Gruppen-Ansicht** für gemeinsame Ausgaben
 
-**Bleib immer im Plus – als echter Bro!** 😎
+**Bleib immer im Plus – als echter Bro!** 🤛🏻😎✌🏻
 
 # Tech
 
