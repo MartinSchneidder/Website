@@ -40,6 +40,7 @@ import { ref, onMounted } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
 import { getUserById } from "@/services/userService"; // Funktion zum Abrufen des Benutzernamens
 import { useRoute } from "vue-router";
+import { useAuthStore } from "@/pinia/authStore";
 
 const props = defineProps({
   members: Array, // Mitglieder der Gruppe
@@ -56,6 +57,9 @@ const transferType = ref("send");
 
 // Holen von Benutzernamen
 const membersWithUsername = ref([]);
+// Holen von CurrentUser
+const authStore = useAuthStore();
+const currentUser = authStore.user;
 
 onMounted(async () => {
   // Holen der Mitglieder mit ihren Usernamen
@@ -82,6 +86,8 @@ const submitTransaction = async () => {
     amount: amount.value,
     comment: comment.value,
     type: transferType.value,
+    createdBy: currentUser?.uid,
+    createdAt: new Date().toISOString(),
   };
 
   await transactionStore.addTransaction(groupId.value, transaction);
