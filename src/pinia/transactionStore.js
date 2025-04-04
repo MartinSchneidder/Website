@@ -1,42 +1,57 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { db } from "@/firebase";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  doc,
+  collection,
+  addDoc,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
 
 export const useTransactionStore = defineStore("transactions", () => {
   const transactions = ref([]);
 
-  // Transaktion speichern
+  // 🟢 Transaktion unter /groups/{groupId}/transactions hinzufügen
   async function addTransaction(groupId, transaction) {
     try {
-      const docRef = await addDoc(collection(db, "transactions"), {
-        groupId,
+      const groupRef = doc(db, "groups", groupId); // 🔗 Referenz zur Gruppe
+      const txRef = collection(groupRef, "transactions"); // 📁 Subcollection
+
+      const docRef = await addDoc(txRef, {
         ...transaction,
         createdAt: new Date(),
       });
+
       transactions.value.push({ id: docRef.id, ...transaction });
-      console.log("Transaktion gespeichert!");
+      console.log("✅ Transaktion gespeichert in Gruppe", groupId);
     } catch (error) {
-      console.error("Fehler beim Speichern der Transaktion:", error);
+      console.error("❌ Fehler beim Speichern:", error);
     }
   }
 
-  // Alle Transaktionen einer Gruppe abrufen
+  // 🔁 Transaktionen aus Subcollection lesen
   async function fetchTransactions(groupId) {
     try {
-      const q = query(
-        collection(db, "transactions"),
-        where("groupId", "==", groupId)
-      );
-      const querySnapshot = await getDocs(q);
-      transactions.value = querySnapshot.docs.map((doc) => ({
+      const groupRef = doc(db, "groups", groupId);
+      const txRef = collection(groupRef, "transactions");
+
+      const q = query(txRef, orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+
+      transactions.value = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
     } catch (error) {
-      console.error("Fehler beim Abrufen der Transaktionen:", error);
+      console.error("❌ Fehler beim Abrufen:", error);
     }
   }
 
-  return { transactions, addTransaction, fetchTransactions };
+  return {
+    transactions,
+    addTransaction,
+    fetchTransactions,
+  };
 });

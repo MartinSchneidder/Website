@@ -11,8 +11,6 @@
         v-model="selectedMembers"
         :value="member.id"
       />
-      {{ member.name }}
-      <!-- WO KOMMT MANE HER, BITTE ZU USERNAME ÄNDERN -->
       <label :for="'member-' + member.id">{{ member.username }}</label>
       <!-- Username hier -->
     </div>
