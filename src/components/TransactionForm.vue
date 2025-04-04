@@ -1,10 +1,13 @@
 <template>
   <form @submit.prevent="submitTransaction">
     <h2>Neue Transaktion</h2>
-
     <!-- Mitglieder auswählen -->
     <label>Empfänger auswählen:</label>
-    <div v-for="member in members" :key="member.id" class="custom-checkbox">
+    <div
+      v-for="member in filteredMembers"
+      :key="member.id"
+      class="custom-checkbox"
+    >
       <input
         type="checkbox"
         :id="'member-' + member.id"
@@ -12,7 +15,6 @@
         :value="member.id"
       />
       <label :for="'member-' + member.id">{{ member.username }}</label>
-      <!-- Username hier -->
     </div>
 
     <!-- Betrag eingeben -->
@@ -34,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, watch } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
 import { getUserById } from "@/services/userService"; // Funktion zum Abrufen des Benutzernamens
 import { useRoute } from "vue-router";
@@ -53,20 +55,49 @@ const amount = ref("");
 const comment = ref("");
 const transferType = ref("send");
 
-// Holen von Benutzernamen
-const membersWithUsername = ref([]);
-// Holen von CurrentUser
+const membersWithUsername = ref([]); // Mitglieder mit Usernamen
 const authStore = useAuthStore();
-const currentUser = authStore.user;
+const currentUser = computed(() => authStore.user);
 
-onMounted(async () => {
-  // Holen der Mitglieder mit ihren Usernamen
-  const members = props.members;
-  for (let member of members) {
+// Funktion um Mitglieder zu bereichern
+/*enrichMembers():
+Diese Funktion lädt für jedes Mitglied die User-Daten (z.B. den Usernamen) 
+und speichert diese Informationen in membersWithUsername.value.*/
+const enrichMembers = async (members) => {
+  const enriched = [];
+
+  for (const member of members) {
     const user = await getUserById(member.id); // ID zu Username
-    member.username = user.username;
+    enriched.push({
+      ...member,
+      username: user?.username ?? "Unbekannt",
+    });
   }
-  membersWithUsername.value = members; // Mit Usernamen versehen
+
+  membersWithUsername.value = enriched;
+};
+
+// Watcher auf props.members um Mitglieder zu befüllen
+/* watch() mit immediate: true:
+ Wir überwachen props.members und rufen die Funktion enrichMembers() 
+ sofort beim Laden der Komponente und bei jeder Änderung von props.members auf.*/
+watch(
+  () => props.members,
+  async (newMembers) => {
+    if (newMembers.length > 0) {
+      await enrichMembers(newMembers);
+    }
+  },
+  { immediate: true }
+);
+
+// Der aktive User wird aus der Liste der auswählbaren Mitglieder herausgefiltert
+const filteredMembers = computed(() => {
+  if (!currentUser.value?.uid || !membersWithUsername.value.length) return [];
+
+  return membersWithUsername.value.filter(
+    (member) => member.id !== currentUser.value.uid
+  );
 });
 
 const toggleTransferType = () => {
@@ -84,7 +115,7 @@ const submitTransaction = async () => {
     amount: amount.value,
     comment: comment.value,
     type: transferType.value,
-    createdBy: currentUser?.uid,
+    createdBy: currentUser.value?.uid,
     createdAt: new Date().toISOString(),
   };
 
