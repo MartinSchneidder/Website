@@ -1,61 +1,115 @@
 <template>
-  <div>
-    <h2>Geld senden</h2>
-    <input v-model="amount" name="amount" placeholder="Betrag" type="number" />
-    <input v-model="friend" name="friend" placeholder="Empfänger" type="text" />
-    <input
-      v-model="comment"
-      name="comment"
-      placeholder="Kommentar"
-      type="text"
-    />
-    <button @click="sendMoney">Senden</button>
-  </div>
+  <form @submit.prevent="submitTransaction">
+    <h2>Neue Transaktion</h2>
+
+    <!-- Mitglieder auswählen -->
+    <label>Empfänger auswählen:</label>
+    <div v-for="member in members" :key="member.id" class="custom-checkbox">
+      <input
+        type="checkbox"
+        :id="'member-' + member.id"
+        v-model="selectedMembers"
+        :value="member.id"
+      />
+      <label :for="'member-' + member.id">{{ member.username }}</label>
+      <!-- Username hier -->
+    </div>
+
+    <!-- Betrag eingeben -->
+    <label>Betrag:</label>
+    <input type="number" v-model="amount" placeholder="€ Betrag" required />
+
+    <!-- Kommentar hinzufügen -->
+    <label>Kommentar:</label>
+    <input type="text" v-model="comment" placeholder="Optional" />
+
+    <!-- Transfer-Richtung umschalten -->
+    <button type="button" @click="toggleTransferType">
+      {{ transferType === "send" ? "🔄 Geld erhalten" : "➡️ Geld senden" }}
+    </button>
+
+    <!-- Absenden -->
+    <button type="submit">Transaktion speichern</button>
+  </form>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
-import { db, auth } from "@/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { getUserById } from "@/services/userService"; // Funktion zum Abrufen des Benutzernamens
+import { useRoute } from "vue-router";
+import { useAuthStore } from "@/pinia/authStore";
 
-// Reaktive Werte für das Formular
-const amount = ref(0);
-const friend = ref("");
+const props = defineProps({
+  members: Array, // Mitglieder der Gruppe
+});
+
+const transactionStore = useTransactionStore();
+const route = useRoute();
+const groupId = ref(route.params.groupId); // Aktuelle Gruppen-ID
+
+const selectedMembers = ref([]);
+const amount = ref("");
 const comment = ref("");
+const transferType = ref("send");
 
-const store = useTransactionStore();
+// Holen von Benutzernamen
+const membersWithUsername = ref([]);
+// Holen von CurrentUser
+const authStore = useAuthStore();
+const currentUser = authStore.user;
 
-const sendMoney = async () => {
-  if (!auth.currentUser) {
-    alert("Bitte melde dich an.");
+onMounted(async () => {
+  // Holen der Mitglieder mit ihren Usernamen
+  const members = props.members;
+  for (let member of members) {
+    const user = await getUserById(member.id); // ID zu Username
+    member.username = user.username;
+  }
+  membersWithUsername.value = members; // Mit Usernamen versehen
+});
+
+const toggleTransferType = () => {
+  transferType.value = transferType.value === "send" ? "receive" : "send";
+};
+
+const submitTransaction = async () => {
+  if (selectedMembers.value.length === 0) {
+    alert("Bitte Empfänger auswählen!");
     return;
   }
 
-  const transactionData = {
-    amount: parseFloat(amount.value),
-    friend: friend.value,
+  const transaction = {
+    members: selectedMembers.value,
+    amount: amount.value,
     comment: comment.value,
-    uid: auth.currentUser.uid, // Speichert die Transaktion nur für den angemeldeten User
-    timestamp: new Date(),
+    type: transferType.value,
+    createdBy: currentUser?.uid,
+    createdAt: new Date().toISOString(),
   };
 
-  try {
-    // 1️⃣ In Firestore speichern
-    await addDoc(collection(db, "financeData"), transactionData);
-
-    // 2️⃣ In Pinia speichern (für schnellen Zugriff)
-    store.addTransaction(transactionData);
-
-    // 3️⃣ Formular zurücksetzen
-    amount.value = 0;
-    friend.value = "";
-    comment.value = "";
-
-    alert("Transaktion gespeichert!");
-  } catch (error) {
-    console.error("Fehler beim Speichern der Finanzdaten:", error);
-    alert("Fehler beim Speichern!");
-  }
+  await transactionStore.addTransaction(groupId.value, transaction);
+  alert("Transaktion gespeichert!");
 };
 </script>
+
+<style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+</style>

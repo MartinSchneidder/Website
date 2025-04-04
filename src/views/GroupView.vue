@@ -21,7 +21,7 @@ import { getGroupMembers } from "@/services/groupService.js";
 import { getGroupById } from "@/services/groupService.js";
 import TransactionForm from "../components/TransactionForm.vue";
 import BalanceChart from "../components/BalanceChart.vue";
-import TransactionForm2 from "../components/TransactionForm2.vue";
+import TransactionForm2 from "../components/TransactionForm.vue";
 import TransactionList from "../components/TransactionList.vue";
 
 const route = useRoute();
