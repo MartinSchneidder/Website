@@ -6,16 +6,25 @@
         <strong>{{ transaction.type === "send" ? "➡️" : "🔄" }}</strong>
         {{ transaction.amount }}€ an
         <span v-if="transaction.members">
-          <span v-for="memberId in transaction.members" :key="memberId">
-            {{ memberNames[memberId] || "❓" }}
+          <span
+            v-for="(memberId, index) in transaction.members"
+            :key="memberId"
+          >
+            {{ memberNames[memberId] || "❓"
+            }}<span v-if="index < transaction.members.length - 1">, </span>
           </span>
         </span>
+        <span>
+          von
+          <strong>{{
+            memberNames[transaction.createdBy] || "Unbekannt"
+          }}</strong></span
+        >
         <em v-if="transaction.comment">({{ transaction.comment }})</em>
       </li>
     </ul>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
@@ -29,7 +38,7 @@ const groupId = route.params.groupId;
 const transactions = computed(() => transactionStore.transactions);
 const memberNames = ref({});
 
-// 🛠️ Mitglieder abrufen & Debugging
+// 🔄 Mitglieder abrufen und Namen zuordnen
 const loadGroupMembers = async () => {
   console.log("🔄 Lade Mitglieder der Gruppe für ID:", groupId);
 
@@ -37,15 +46,29 @@ const loadGroupMembers = async () => {
   console.log("📌 Mitglieder erhalten:", members);
 
   const namesMap = {};
+
+  // IDs in Namen umwandeln
   for (const member of members) {
     namesMap[member.id] = member.username;
+  }
+
+  // Auch createdBy-Felder in Namen auflösen
+  for (const transaction of transactions.value) {
+    const creatorId = transaction.createdBy;
+    const alreadyKnown = namesMap[creatorId];
+    if (!alreadyKnown && creatorId) {
+      const match = members.find((m) => m.id === creatorId);
+      if (match) {
+        namesMap[creatorId] = match.username;
+      }
+    }
   }
 
   memberNames.value = namesMap;
   console.log("✅ Mitgliedsnamen gespeichert:", memberNames.value);
 };
 
-// 🔄 Beobachte `transactions` und lade Namen
+// Beobachte Transaktionen und lade Membernamen, wenn sich was ändert
 watch(
   transactions,
   async (newTransactions) => {
@@ -56,7 +79,7 @@ watch(
   { immediate: true }
 );
 
-// Beim Laden der Komponente die Daten abrufen
+// Beim ersten Laden
 onMounted(async () => {
   await transactionStore.fetchTransactions(groupId);
   await loadGroupMembers();
