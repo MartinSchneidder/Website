@@ -3,8 +3,16 @@
     <h2>Transaktionen</h2>
     <ul>
       <li v-for="transaction in transactions" :key="transaction.id">
+        <em v-if="transaction.comment">({{ transaction.comment }})</em>
+        <br />
+        <span>
+          <strong>{{
+            memberNames[transaction.createdBy] || "Unbekannt"
+          }}</strong></span
+        >
+        {{ transaction.amount }}€
         <strong>{{ transaction.type === "send" ? "➡️" : "🔄" }}</strong>
-        {{ transaction.amount }}€ an
+
         <span v-if="transaction.members">
           <span
             v-for="(memberId, index) in transaction.members"
@@ -14,13 +22,6 @@
             }}<span v-if="index < transaction.members.length - 1">, </span>
           </span>
         </span>
-        <span>
-          von
-          <strong>{{
-            memberNames[transaction.createdBy] || "Unbekannt"
-          }}</strong></span
-        >
-        <em v-if="transaction.comment">({{ transaction.comment }})</em>
       </li>
     </ul>
   </div>

@@ -25,7 +25,7 @@
 
     <!-- Transfer-Richtung umschalten -->
     <button type="button" @click="toggleTransferType">
-      {{ transferType === "send" ? "🔄 Geld erhalten" : "➡️ Geld senden" }}
+      {{ transferType === "send" ? "➡️ Geld senden" : "🔄 Geld erhalten" }}
     </button>
 
     <!-- Absenden -->
