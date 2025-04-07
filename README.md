@@ -1,4 +1,4 @@
-## 📊 Fortschritt: ![Progressbar](https://progress-bar.xyz/50/)
+## 📊 Fortschritt: ![Progressbar](https://progress-bar.xyz/80/)
 
 # Bro-Bank – bleib mit deinen Bros im Plus!
 
