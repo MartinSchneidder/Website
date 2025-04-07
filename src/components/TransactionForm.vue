@@ -39,7 +39,7 @@
 import { ref, computed, watch } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
 import { getUserById } from "@/services/userService"; // Funktion zum Abrufen des Benutzernamens
-import { updateUserBalance } from "@/services/balanceService";
+import { updateBalances } from "@/services/balanceService";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/pinia/authStore";
 
@@ -121,21 +121,8 @@ const submitTransaction = async () => {
   };
 
   await transactionStore.addTransaction(groupId.value, transaction);
+  await updateBalances(groupId.value, transaction);
 
-  // 🔁 Jetzt: Balance-Update starten
-  const involved = [...selectedMembers.value];
-  const totalPeople = involved.length + 1; // +1 für den Sender
-  const share = amount.value / totalPeople;
-
-  for (const memberId of involved) {
-    await updateUserBalance(groupId.value, memberId, -share); // Schulden
-  }
-
-  await updateUserBalance(
-    groupId.value,
-    currentUser.value?.uid,
-    share * involved.length
-  ); // Zahlt für andere
   alert("Transaktion gespeichert!");
 };
 </script>

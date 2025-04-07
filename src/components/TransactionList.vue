@@ -86,10 +86,10 @@ const memberNames = ref({});
 
 // 🔄 Mitglieder abrufen und Namen zuordnen
 const loadGroupMembers = async () => {
-  console.log("🔄 Lade Mitglieder der Gruppe für ID:", groupId);
+  // console.log("🔄 Lade Mitglieder der Gruppe für ID:", groupId); //DEBUG
 
   const members = await getGroupMembers(groupId);
-  console.log("📌 Mitglieder erhalten:", members);
+  // console.log("📌 Mitglieder erhalten:", members); //DEBUG
 
   const namesMap = {};
 
@@ -111,7 +111,7 @@ const loadGroupMembers = async () => {
   }
 
   memberNames.value = namesMap;
-  console.log("✅ Mitgliedsnamen gespeichert:", memberNames.value);
+  // console.log("✅ Mitgliedsnamen gespeichert:", memberNames.value); //DEBUG
 };
 
 // Beobachte Transaktionen und lade Membernamen, wenn sich was ändert
