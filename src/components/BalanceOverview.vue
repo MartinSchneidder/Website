@@ -16,29 +16,37 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, computed, ref } from "vue";
 import { getGroupBalances } from "@/services/balanceService";
 import { getUserById } from "@/services/userService";
 import { useRoute } from "vue-router";
+import { useBalanceStore } from "@/pinia/balanceStore";
 
-const balancesWithNames = ref([]);
+// const balancesWithNames = ref([]);
 const route = useRoute();
 const groupId = route.params.groupId;
+const balanceStore = useBalanceStore();
 
-onMounted(async () => {
-  const rawBalances = await getGroupBalances(groupId);
-  const withUsernames = [];
+// onMounted(async () => {
+//   const rawBalances = await getGroupBalances(groupId);
+//   const withUsernames = [];
 
-  for (const entry of rawBalances) {
-    const user = await getUserById(entry.id);
-    withUsernames.push({
-      ...entry,
-      username: user.username || "Unbekannt",
-    });
-  }
+//   for (const entry of rawBalances) {
+//     const user = await getUserById(entry.id);
+//     withUsernames.push({
+//       ...entry,
+//       username: user.username || "Unbekannt",
+//     });
+//   }
 
-  balancesWithNames.value = withUsernames;
+//   balancesWithNames.value = withUsernames;
+// });
+
+onMounted(() => {
+  balanceStore.loadBalances(groupId);
 });
+
+const balancesWithNames = computed(() => balanceStore.balances);
 </script>
 
 <style scoped>

@@ -42,11 +42,13 @@ import { getUserById } from "@/services/userService"; // Funktion zum Abrufen de
 import { updateBalances } from "@/services/balanceService";
 import { useRoute } from "vue-router";
 import { useAuthStore } from "@/pinia/authStore";
+import { useBalanceStore } from "../pinia/balanceStore";
 
 const props = defineProps({
   members: Array, // Mitglieder der Gruppe
 });
 
+const balanceStore = useBalanceStore();
 const transactionStore = useTransactionStore();
 const route = useRoute();
 const groupId = ref(route.params.groupId); // Aktuelle Gruppen-ID
@@ -122,6 +124,7 @@ const submitTransaction = async () => {
 
   await transactionStore.addTransaction(groupId.value, transaction);
   await updateBalances(groupId.value, transaction);
+  await balanceStore.loadBalances(groupId.value);
 
   alert("Transaktion gespeichert!");
 };
