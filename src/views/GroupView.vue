@@ -2,6 +2,7 @@
   <div v-if="group" class="group-view">
     <h1>{{ group.name }}</h1>
     <p>{{ group.description }}</p>
+    <BalanceOverview />
     <!-- <TransactionForm /> -->
     <TransactionForm2 :members="groupMembers" />
     <TransactionList />
@@ -23,6 +24,7 @@ import TransactionForm from "../components/TransactionForm.vue";
 import BalanceChart from "../components/BalanceChart.vue";
 import TransactionForm2 from "../components/TransactionForm.vue";
 import TransactionList from "../components/TransactionList.vue";
+import BalanceOverview from "../components/BalanceOverview.vue";
 
 const route = useRoute();
 const group = ref(null);
