@@ -79,9 +79,12 @@ export async function joinGroupByCode(codeword) {
 
     // Nutzer der Gruppe hinzufügen
     const groupRef = doc(db, "groups", groupId);
-    await updateDoc(groupRef, {
-      members: [...(groupDoc.data().members || []), user.uid],
-    });
+    const existingMembers = groupDoc.data().members || [];
+    if (!existingMembers.includes(user.uid)) {
+      await updateDoc(groupRef, {
+        members: [...existingMembers, user.uid],
+      });
+    }
 
     return true; // Erfolg
   } catch (error) {

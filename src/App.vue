@@ -25,7 +25,8 @@ const toggleSidebar = () => {
         :class="{ collapsed: isCollapsed }"
         @click="toggleSidebar"
       >
-        {{ isCollapsed ? "⮚⮚⮚" : "⮘⮘⮘" }}
+        <span class="arrow">▶<br />▶<br />▶</span>
+        <!-- {{ isCollapsed ? "▶" : "◀" }} -->
       </button>
       <NavBar v-if="user" />
       <LoginBar v-else />
@@ -74,7 +75,7 @@ const toggleSidebar = () => {
 /* Eingeklappte Sidebar */
 .sidebar.collapsed {
   margin-left: calc(
-    -1 *
+    -0.85 *
       clamp(
         var(--sidebar-min-width),
         var(--sidebar-width),
@@ -85,7 +86,7 @@ const toggleSidebar = () => {
 /* Button zum Ein-/Ausklappen */
 .toggle-btn {
   position: fixed;
-  top: -5px;
+  top: 25%;
   left: -5px;
   width: 5rem;
   z-index: 1000;
@@ -101,9 +102,9 @@ const toggleSidebar = () => {
 
 /* Button verschiebt sich mit der Sidebar */
 .toggle-btn.collapsed {
-  background-color: #f3f3f3;
+  background-color: #f3f3f3aa;
   /* border: var(--color-shadow) 2px solid; */
-  margin: 10px;
+  /* margin: 10px; */
 }
 
 .content {
@@ -118,6 +119,27 @@ const toggleSidebar = () => {
   overflow-y: auto; /* Scrollbarer Inhalt */
 }
 .content.expanded {
-  margin-left: 0;
+  margin-left: calc(
+    0.15 *
+      clamp(
+        var(--sidebar-min-width),
+        var(--sidebar-width),
+        var(--sidebar-max-width)
+      )
+  );
+}
+
+.toggle-btn .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn.collapsed .arrow {
+  transform: rotate(0deg);
+}
+
+.toggle-btn:not(.collapsed) .arrow {
+  /* transform: rotate(90deg); */
+  transform: rotate3d(0, 10, 0, 180deg);
 }
 </style>
