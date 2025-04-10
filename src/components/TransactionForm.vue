@@ -206,8 +206,8 @@ const submitTransaction = async () => {
 
 .ghibli-input:focus {
   outline: none;
-  border-color: #88b36a;
-  background-color: #f5fdf3;
+  border-color: var(--color-font-colored);
+  background-color: var(--color-background-colored);
 }
 
 .ghibli-members {
@@ -257,7 +257,7 @@ const submitTransaction = async () => {
 .ghibli-button {
   margin-top: 2rem;
   padding: 0.8rem 1.6rem;
-  background-color: #7bb472;
+  background-color: var(--color-akzent);
   color: white;
   border: none;
   border-radius: 14px;
@@ -267,7 +267,7 @@ const submitTransaction = async () => {
 }
 
 .ghibli-button:hover {
-  background-color: #65985c;
+  background-color: var(--color-font-colored);
   cursor: pointer;
 }
 

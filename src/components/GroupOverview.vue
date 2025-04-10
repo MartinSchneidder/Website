@@ -87,7 +87,7 @@ onMounted(() => {
 }
 
 .group-fieldset {
-  border: 2px solid #d4e0cc;
+  border: 2px solid var(--color-border);
   background: #fefbf6;
   border-radius: 16px;
   padding: 1rem 1.5rem;
@@ -104,7 +104,7 @@ onMounted(() => {
 .group-name {
   font-weight: bold;
   font-size: 1.2rem;
-  color: #4a7c59;
+  color: var(--color-font-colored);
   padding: 0 0.5rem;
   white-space: nowrap;
   overflow: hidden;
@@ -128,7 +128,7 @@ onMounted(() => {
 }
 
 .no-groups a {
-  color: #4a7c59;
+  color: #61192b;
   text-decoration: underline;
 }
 
@@ -140,8 +140,8 @@ onMounted(() => {
 }
 
 .member {
-  background: #e6f2dc;
-  color: #4a7c59;
+  background: var(--color-background-colored);
+  color: var(--color-font-colored);
   padding: 0.3rem 0.6rem;
   border-radius: 12px;
   font-size: 0.85rem;
