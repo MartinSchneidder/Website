@@ -25,13 +25,21 @@
     <label>Kommentar:</label>
     <input type="text" v-model="comment" placeholder="Optional" />
 
-    <!-- Transfer-Richtung umschalten -->
-    <button type="button" @click="toggleTransferType">
-      {{ transferType === "send" ? "➡️ Geld senden" : "🔄 Geld erhalten" }}
-    </button>
+    <!-- Transfer-Richtung auswählen -->
+    <fieldset>
+      <legend>Transaktionstyp:</legend>
+      <label>
+        <input type="radio" value="send" v-model="transferType" />
+        ➡️ Geld senden
+      </label>
+      <label>
+        <input type="radio" value="receive" v-model="transferType" />
+        🔄 Geld erhalten
+      </label>
+    </fieldset>
 
     <!-- Absenden -->
-    <button type="submit">Transaktion speichern</button>
+    <button type="submit">Transaktion</button>
   </form>
 </template>
 
