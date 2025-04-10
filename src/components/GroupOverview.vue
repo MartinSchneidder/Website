@@ -1,15 +1,33 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { getUserGroups } from "@/services/groupService.js";
+import { getUserGroups } from "@/services/groupService.js"; // Funktion zum Abrufen der Gruppen
 import { auth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { getUserById } from "@/services/userService"; // Funktion zum Abrufen der User-Daten
 
 const groups = ref([]);
 
+// Funktion um Mitglieder mit Usernamen zu bereichern
+const enrichGroupsWithUsernames = async () => {
+  // Gehe durch alle Gruppen und hole Usernamen
+  for (const group of groups.value) {
+    group.members = await Promise.all(
+      group.members.map(async (memberId) => {
+        const user = await getUserById(memberId); // Holt Userdaten
+        return { id: memberId, username: user?.username || "Unbekannt" };
+      })
+    );
+  }
+};
+
+// Beim Initialisieren des Components und bei Auth-Änderungen
 onMounted(() => {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
+      // Hole die Gruppen des Nutzers
       groups.value = await getUserGroups(user.uid);
+      // Anreicherung der Mitglieder mit Usernamen
+      await enrichGroupsWithUsernames();
     }
   });
 });
@@ -17,16 +35,30 @@ onMounted(() => {
 
 <template>
   <div class="groups-container">
-    <h1>Deine Gruppen</h1>
-    <div v-if="groups.length > 0" class="groups-list">
+    <h2>🌿 Deine Gruppen</h2>
+
+    <div v-if="groups.length > 0" class="group-list">
       <router-link
         v-for="group in groups"
         :key="group.id"
         :to="`/group/${group.id}`"
-        class="group-card"
+        class="group-link"
       >
-        <h2>{{ group.name }}</h2>
-        <p>{{ group.description }}</p>
+        <fieldset class="group-fieldset">
+          <legend class="group-name">{{ group.name }}</legend>
+
+          <!-- Mitglieder anzeigen -->
+          <div class="group-members">
+            <span
+              class="member"
+              v-for="member in group.members"
+              :key="member.id"
+            >
+              👤 {{ member.username }}
+            </span>
+          </div>
+          <p class="group-description">{{ group.description }}</p>
+        </fieldset>
       </router-link>
     </div>
 
@@ -38,24 +70,86 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.groups-list {
+.groups-container {
+  padding: 2rem;
+  font-family: "Segoe UI", "Noto Sans", sans-serif;
+}
+
+.group-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
 }
 
-.group-card {
-  flex: auto;
-  background: var(--color-variant1);
-  padding: 1rem;
-  border-radius: 15px;
-  width: 15rem;
-  cursor: pointer;
+.group-link {
   text-decoration: none;
   color: inherit;
 }
 
-.group-card:hover {
-  background: var(--color-variant2);
+.group-fieldset {
+  border: 2px solid #d4e0cc;
+  background: #fefbf6;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.group-fieldset:hover {
+  background: #f1f5e8;
+  transform: translateY(-2px);
+}
+
+.group-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #4a7c59;
+  padding: 0 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+  max-height: 4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-groups {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.no-groups a {
+  color: #4a7c59;
+  text-decoration: underline;
+}
+
+.group-members {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.member {
+  background: #e6f2dc;
+  color: #4a7c59;
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  max-width: 10rem; /* Begrenzung */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>
