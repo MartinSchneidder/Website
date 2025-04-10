@@ -112,7 +112,9 @@ const submitTransaction = async () => {
               v-model="selectedMembers"
               :value="member.id"
             />
-            <label :for="'member-' + member.id">{{ member.username }}</label>
+            <label :for="'member-' + member.id" :title="member.username">
+              {{ member.username }}
+            </label>
           </div>
         </div>
 
@@ -170,7 +172,7 @@ const submitTransaction = async () => {
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(100, 100, 100, 0.1);
   border: 2px solid #dce3da;
-  max-width: 500px;
+  max-width: 50vw;
   width: 100%;
 }
 
@@ -221,6 +223,15 @@ const submitTransaction = async () => {
   gap: 0.5rem;
   font-weight: 500;
   color: #444;
+}
+
+.ghibli-checkbox label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40vw; /* oder was bei dir passt */
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 .ghibli-radio-group {
