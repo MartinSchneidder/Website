@@ -1,3 +1,20 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import { getUserGroups } from "@/services/groupService.js";
+import { auth } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+
+const groups = ref([]);
+
+onMounted(() => {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      groups.value = await getUserGroups(user.uid);
+    }
+  });
+});
+</script>
+
 <template>
   <div class="groups-container">
     <h1>Deine Gruppen</h1>
@@ -19,23 +36,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref, onMounted } from "vue";
-import { getUserGroups } from "@/services/groupService.js";
-import { auth } from "@/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-
-const groups = ref([]);
-
-onMounted(() => {
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      groups.value = await getUserGroups(user.uid);
-    }
-  });
-});
-</script>
 
 <style scoped>
 .groups-list {
