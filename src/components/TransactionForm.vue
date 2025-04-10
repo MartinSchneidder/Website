@@ -24,6 +24,9 @@ const transferType = ref("send");
 const membersWithUsername = ref([]); // Mitglieder mit Usernamen
 const authStore = useAuthStore();
 const currentUser = computed(() => authStore.user);
+const buttonSend = computed(() =>
+  transferType.value === "send" ? "💸 Senden!" : "💸 Erhalten!"
+);
 
 // Funktion um Mitglieder zu bereichern
 /*enrichMembers():
@@ -153,7 +156,7 @@ const submitTransaction = async () => {
         </fieldset>
 
         <!-- Button -->
-        <button type="submit" class="ghibli-button">💫 Speichern</button>
+        <button type="submit" class="ghibli-button">{{ buttonSend }}</button>
       </form>
     </fieldset>
   </div>
