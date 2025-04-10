@@ -1,46 +1,50 @@
 <template>
-  <form @submit.prevent="submitTransaction">
-    <h2>Neue Transaktion</h2>
-    <!-- Mitglieder auswählen -->
-    <label>Empfänger auswählen:</label>
-    <div
-      v-for="member in filteredMembers"
-      :key="member.id"
-      class="custom-checkbox"
-    >
-      <input
-        type="checkbox"
-        :id="'member-' + member.id"
-        v-model="selectedMembers"
-        :value="member.id"
-      />
-      <label :for="'member-' + member.id">{{ member.username }}</label>
-    </div>
+  <fieldset>
+    <legend>
+      <h2>Neue Transaktion:</h2>
+    </legend>
+    <form @submit.prevent="submitTransaction">
+      <!-- Mitglieder auswählen -->
+      <label>Empfänger auswählen:</label>
+      <div
+        v-for="member in filteredMembers"
+        :key="member.id"
+        class="custom-checkbox"
+      >
+        <input
+          type="checkbox"
+          :id="'member-' + member.id"
+          v-model="selectedMembers"
+          :value="member.id"
+        />
+        <label :for="'member-' + member.id">{{ member.username }}</label>
+      </div>
 
-    <!-- Betrag eingeben -->
-    <label>Betrag:</label>
-    <input type="number" v-model="amount" placeholder="€ Betrag" required />
+      <!-- Betrag eingeben -->
+      <label>Betrag:</label>
+      <input type="number" v-model="amount" placeholder="€ Betrag" required />
 
-    <!-- Kommentar hinzufügen -->
-    <label>Kommentar:</label>
-    <input type="text" v-model="comment" placeholder="Optional" />
+      <!-- Kommentar hinzufügen -->
+      <label>Kommentar:</label>
+      <input type="text" v-model="comment" placeholder="Optional" />
 
-    <!-- Transfer-Richtung auswählen -->
-    <fieldset>
-      <legend>Transaktionstyp:</legend>
-      <label>
-        <input type="radio" value="send" v-model="transferType" />
-        ➡️ Geld senden
-      </label>
-      <label>
-        <input type="radio" value="receive" v-model="transferType" />
-        🔄 Geld erhalten
-      </label>
-    </fieldset>
+      <!-- Transfer-Richtung auswählen -->
+      <fieldset>
+        <legend>Transaktionstyp:</legend>
+        <label>
+          <input type="radio" value="send" v-model="transferType" />
+          ➡️ Geld senden </label
+        ><br />
+        <label>
+          <input type="radio" value="receive" v-model="transferType" />
+          🔄 Geld erhalten
+        </label>
+      </fieldset>
 
-    <!-- Absenden -->
-    <button type="submit">Transaktion</button>
-  </form>
+      <!-- Absenden -->
+      <button type="submit">Transaktion</button>
+    </form>
+  </fieldset>
 </template>
 
 <script setup>
