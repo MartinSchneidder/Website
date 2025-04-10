@@ -99,24 +99,26 @@ const submitTransaction = async () => {
 
       <form @submit.prevent="submitTransaction" class="ghibli-form">
         <!-- Empfänger -->
-        <label class="ghibli-label">Empfänger auswählen:</label>
-        <div class="ghibli-members">
-          <div
-            v-for="member in filteredMembers"
-            :key="member.id"
-            class="ghibli-checkbox"
-          >
-            <input
-              type="checkbox"
-              :id="'member-' + member.id"
-              v-model="selectedMembers"
-              :value="member.id"
-            />
-            <label :for="'member-' + member.id" :title="member.username">
-              {{ member.username }}
-            </label>
+        <fieldset class="ghibli-fieldset-group">
+          <legend class="ghibli-label">Empfänger auswählen:</legend>
+          <div class="ghibli-members">
+            <div
+              v-for="member in filteredMembers"
+              :key="member.id"
+              class="ghibli-checkbox"
+            >
+              <input
+                type="checkbox"
+                :id="'member-' + member.id"
+                v-model="selectedMembers"
+                :value="member.id"
+              />
+              <label :for="'member-' + member.id" :title="member.username">
+                {{ member.username }}
+              </label>
+            </div>
           </div>
-        </div>
+        </fieldset>
 
         <!-- Betrag -->
         <label class="ghibli-label">Betrag (€):</label>
@@ -138,7 +140,7 @@ const submitTransaction = async () => {
         />
 
         <!-- Transfer-Richtung -->
-        <fieldset class="ghibli-radio-group">
+        <fieldset class="ghibli-fieldset-group">
           <legend class="ghibli-label">Transaktionstyp</legend>
           <label class="ghibli-radio">
             <input type="radio" value="send" v-model="transferType" />
@@ -214,7 +216,6 @@ const submitTransaction = async () => {
   align-items: first baseline;
   gap: 0.5rem;
   margin-top: 0.5rem;
-  margin-left: 10%;
 }
 
 .ghibli-checkbox {
@@ -234,12 +235,12 @@ const submitTransaction = async () => {
   vertical-align: bottom;
 }
 
-.ghibli-radio-group {
+.ghibli-fieldset-group {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 12px;
-  background-color: #f0f7ee;
-  border: 1px solid #c9d7c5;
+  background-color: #fbfbf9;
+  border: 2px solid #c9d7c5;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
