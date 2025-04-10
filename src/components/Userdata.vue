@@ -38,7 +38,7 @@ onMounted(() => {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
-        console.log("Angemeldeter Nutzer:", user.uid);
+        // console.log("Angemeldeter Nutzer:", user.uid);
 
         // Nutzername abrufen
         const userDoc = await getDoc(doc(db, "users", user.uid));
