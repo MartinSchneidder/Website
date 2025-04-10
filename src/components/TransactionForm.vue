@@ -1,52 +1,3 @@
-<template>
-  <fieldset>
-    <legend>
-      <h2>Neue Transaktion:</h2>
-    </legend>
-    <form @submit.prevent="submitTransaction">
-      <!-- Mitglieder auswählen -->
-      <label>Empfänger auswählen:</label>
-      <div
-        v-for="member in filteredMembers"
-        :key="member.id"
-        class="custom-checkbox"
-      >
-        <input
-          type="checkbox"
-          :id="'member-' + member.id"
-          v-model="selectedMembers"
-          :value="member.id"
-        />
-        <label :for="'member-' + member.id">{{ member.username }}</label>
-      </div>
-
-      <!-- Betrag eingeben -->
-      <label>Betrag:</label>
-      <input type="number" v-model="amount" placeholder="€ Betrag" required />
-
-      <!-- Kommentar hinzufügen -->
-      <label>Kommentar:</label>
-      <input type="text" v-model="comment" placeholder="Optional" />
-
-      <!-- Transfer-Richtung auswählen -->
-      <fieldset>
-        <legend>Transaktionstyp:</legend>
-        <label>
-          <input type="radio" value="send" v-model="transferType" />
-          ➡️ Geld senden </label
-        ><br />
-        <label>
-          <input type="radio" value="receive" v-model="transferType" />
-          🔄 Geld erhalten
-        </label>
-      </fieldset>
-
-      <!-- Absenden -->
-      <button type="submit">Transaktion</button>
-    </form>
-  </fieldset>
-</template>
-
 <script setup>
 import { ref, computed, watch } from "vue";
 import { useTransactionStore } from "@/pinia/transactionStore";
@@ -141,24 +92,180 @@ const submitTransaction = async () => {
   alert("Transaktion gespeichert!");
 };
 </script>
+<template>
+  <div class="ghibli-container">
+    <fieldset class="ghibli-card">
+      <legend class="ghibli-heading">Neue Transaktion</legend>
+
+      <form @submit.prevent="submitTransaction" class="ghibli-form">
+        <!-- Empfänger -->
+        <label class="ghibli-label">Empfänger auswählen:</label>
+        <div class="ghibli-members">
+          <div
+            v-for="member in filteredMembers"
+            :key="member.id"
+            class="ghibli-checkbox"
+          >
+            <input
+              type="checkbox"
+              :id="'member-' + member.id"
+              v-model="selectedMembers"
+              :value="member.id"
+            />
+            <label :for="'member-' + member.id">{{ member.username }}</label>
+          </div>
+        </div>
+
+        <!-- Betrag -->
+        <label class="ghibli-label">Betrag (€):</label>
+        <input
+          type="number"
+          v-model="amount"
+          placeholder="z. B. 12,50"
+          required
+          class="ghibli-input"
+        />
+
+        <!-- Kommentar -->
+        <label class="ghibli-label">Kommentar (optional):</label>
+        <input
+          type="text"
+          v-model="comment"
+          placeholder="Z. B. Kino, Pizza, etc."
+          class="ghibli-input"
+        />
+
+        <!-- Transfer-Richtung -->
+        <fieldset class="ghibli-radio-group">
+          <legend class="ghibli-label">Transaktionstyp</legend>
+          <label class="ghibli-radio">
+            <input type="radio" value="send" v-model="transferType" />
+            ➡️ Geld senden
+          </label>
+          <label class="ghibli-radio">
+            <input type="radio" value="receive" v-model="transferType" />
+            🔄 Geld erhalten
+          </label>
+        </fieldset>
+
+        <!-- Button -->
+        <button type="submit" class="ghibli-button">💫 Speichern</button>
+      </form>
+    </fieldset>
+  </div>
+</template>
 
 <style scoped>
-form {
+.ghibli-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+
+  /* background: #f9f6f0; */
+}
+
+.ghibli-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(100, 100, 100, 0.1);
+  border: 2px solid #dce3da;
+  max-width: 500px;
+  width: 100%;
+}
+
+.ghibli-heading {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #4b4b4b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.ghibli-label {
+  font-weight: 600;
+  color: #5a5a5a;
+  margin-top: 1.2rem;
+  display: block;
+}
+
+.ghibli-input {
+  width: 85%;
+  padding: 0.75rem;
+  margin-top: 0.3rem;
+  border: 2px solid #ccdacc;
+  border-radius: 12px;
+  background-color: #fbfbf9;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.ghibli-input:focus {
+  outline: none;
+  border-color: #88b36a;
+  background-color: #f5fdf3;
+}
+
+.ghibli-members {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: first baseline;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 10%;
 }
 
-button {
-  cursor: pointer;
-  padding: 10px;
-  background-color: #007bff;
+.ghibli-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.ghibli-radio-group {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #f0f7ee;
+  border: 1px solid #c9d7c5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ghibli-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  color: #3d3d3d;
+}
+
+.ghibli-button {
+  margin-top: 2rem;
+  padding: 0.8rem 1.6rem;
+  background-color: #7bb472;
   color: white;
   border: none;
-  transition: 0.3s;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+.ghibli-button:hover {
+  background-color: #65985c;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .ghibli-card {
+    padding: 1.5rem;
+  }
+
+  .ghibli-heading {
+    font-size: 1.4rem;
+  }
 }
 </style>
