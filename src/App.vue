@@ -51,9 +51,11 @@ const toggleSidebar = () => {
   background: var(--color-sidebar-background);
   /* Rounded top-right corner */
   border-top-right-radius: 80px;
+  /* Border hat Problem, passt nicht, weil 2sidebarshintereinander  */
+  /* border-right: var(--color-border) 2px solid; */
   position: fixed;
-  /* top: 0;
-  left: 0; */
+  /* top: 0; */
+  /* left: 0; */
 
   /* 1/5 der Bildschirmbreite */
   /* min-width: var(--sidebar-min-width);
@@ -86,8 +88,8 @@ const toggleSidebar = () => {
 /* Button zum Ein-/Ausklappen */
 .toggle-btn {
   position: fixed;
-  top: 25%;
-  left: -5px;
+  top: 0%;
+  left: -25px;
   width: 5rem;
   z-index: 1000;
   background-color: transparent;

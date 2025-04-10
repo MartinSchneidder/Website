@@ -173,7 +173,7 @@ const submitTransaction = async () => {
   padding: 2rem;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(100, 100, 100, 0.1);
-  border: 2px solid #dce3da;
+  border: 2px solid var(--color-border);
   max-width: 50vw;
   width: 100%;
 }
@@ -197,7 +197,7 @@ const submitTransaction = async () => {
   width: 85%;
   padding: 0.75rem;
   margin-top: 0.3rem;
-  border: 2px solid #ccdacc;
+  border: 2px solid var(--color-border);
   border-radius: 12px;
   background-color: #fbfbf9;
   font-size: 1rem;
@@ -240,7 +240,7 @@ const submitTransaction = async () => {
   padding: 1rem;
   border-radius: 12px;
   background-color: #fbfbf9;
-  border: 2px solid #c9d7c5;
+  border: 2px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
