@@ -8,7 +8,7 @@ export const useBalanceStore = defineStore("balance", () => {
   const balances = ref([]);
 
   async function loadBalances(groupId) {
-    console.log("🔄 Lade Balances für", groupId);
+    // console.log("🔄 Lade Balances für", groupId);
     const rawBalances = await getGroupBalances(groupId);
     const enriched = [];
 
