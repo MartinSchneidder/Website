@@ -31,7 +31,8 @@
   :root {
     color: #213547;
     /* --color-sidebar-background: linear-gradient(90deg, #ffffff, #f3f3f3); */
-    --color-sidebar-background: #fbfbf9;
+    /* --color-sidebar-background: #fbfbf9; */
+    --color-sidebar-background: #e6f2dc;
     --color-border: #dce3da;
     --color-font-colored: #4a7c59;
     --color-background-colored: #e6f2dc;
@@ -42,8 +43,8 @@
   }
 
   a {
-    font-weight: 500;
-    color: #646cff;
+    font-weight: 600;
+    color: var(--color-font-colored);
     text-decoration: inherit;
   }
   a:hover {

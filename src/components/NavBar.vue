@@ -41,6 +41,9 @@ const logout = async () => {
 </script>
 
 <style scoped>
+a:hover {
+  color: rgb(54, 212, 186);
+}
 .headline {
   margin-top: 2rem;
 }
