@@ -138,6 +138,7 @@ input {
 }
 
 .buttons {
+  padding: 10px;
   display: flex;
   gap: 10px;
 }
