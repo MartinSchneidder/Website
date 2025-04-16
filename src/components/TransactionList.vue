@@ -1,5 +1,4 @@
 <!-- TransactionList.vue -->
-<!-- TODO Toggel zwischen Card und tabelle (Handy/PC) -->
 <template>
   <div class="transactions">
     <h2>📜 Transaktionen</h2>
@@ -40,16 +39,22 @@
             >
           </p>
 
-          <p class="receiver" v-if="transaction.members">
+          <div class="receiver" v-if="transaction.members">
             An:
-            <span
-              v-for="(memberId, index) in transaction.members"
-              :key="memberId"
-            >
-              {{ memberNames[memberId] || "❓" }}
-              <span v-if="index < transaction.members.length - 1">, </span>
-            </span>
-          </p>
+            <div class="member-list">
+              <span
+                v-for="(memberId, index) in transaction.members"
+                :key="memberId"
+                class="member-name"
+                :title="memberNames[memberId] || '❓'"
+              >
+                {{ memberNames[memberId] || "❓" }}
+                <span v-if="index < transaction.members.length - 1"
+                  >,&nbsp;</span
+                >
+              </span>
+            </div>
+          </div>
 
           <p v-if="transaction.comment" class="comment">
             📝 {{ transaction.comment }}
@@ -141,7 +146,7 @@ onMounted(async () => {
 .transaction-item {
   background: #fff;
   padding: 16px;
-  margin: 10px 0;
+  margin: 10px 10px;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   list-style: none;
@@ -179,7 +184,7 @@ onMounted(async () => {
 }
 
 .transaction-body {
-  margin-top: 10px;
+  margin-top: 0.5rem;
 }
 
 .sender,
@@ -192,5 +197,21 @@ onMounted(async () => {
 .date {
   font-size: 14px;
   color: #888;
+}
+
+.member-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.member-name {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+ul {
+  margin: 0;
+  padding: 0;
 }
 </style>
