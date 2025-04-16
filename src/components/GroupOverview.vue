@@ -72,10 +72,9 @@ onMounted(() => {
 <style scoped>
 .groups-container {
   /* height: 100%; */
-  margin: 0;
-  padding: 0;
 
-  /* background: rgb(255, 0, 0); */
+  padding-bottom: 1rem;
+  background: rgb(255, 0, 0);
   font-family: "Segoe UI", "Noto Sans", sans-serif;
 }
 .headline {
