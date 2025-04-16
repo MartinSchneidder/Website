@@ -13,18 +13,11 @@ import LoginBar from "../components/LoginBar.vue";
 </script>
 
 <style scoped>
-/* Container für das Logo */
 .logo-container {
-  position: relative;
+  height: 100%;
   display: flex;
-  justify-content: center; /* Zentriert das Logo horizontal */
-  align-items: center; /* Zentriert das Logo vertikal */
-  width: 100%; /* Breite des Containers */
-  height: 100vh; /* Höhe auf automatisch gesetzt, damit es den Inhalt nicht überschreitet */
-  /* padding: 0px; */
-  /* margin: 0px; */
-  overflow: hidden; /* Verhindert Scrollbars */
-  box-sizing: border-box; /* Verhindert, dass padding den Inhalt verschiebt */
+  justify-content: center;
+  align-items: center;
 }
 
 /* Das Logo */

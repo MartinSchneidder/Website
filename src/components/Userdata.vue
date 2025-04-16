@@ -1,28 +1,3 @@
-<template>
-  <div class="username-container">
-    <!-- Falls der Nutzer noch keinen Namen hat ODER bearbeiten aktiv ist -->
-    <div v-if="!username || editing" class="username-setup">
-      <p>Wähle einen Namen:</p>
-      <input v-model="newUsername" id="username" placeholder="Username" />
-      <div class="buttons">
-        <button @click="setUsername">Speichern</button>
-        <button v-if="username" @click="cancelEdit" class="cancel-btn">
-          Abbrechen
-        </button>
-      </div>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-    </div>
-
-    <!-- Falls Nutzer bereits einen Namen hat -->
-    <div v-else class="username-display">
-      <div class="username-display2">
-        <p>Willkommen, {{ username }}!</p>
-        <button @click="editUsername" class="edit-btn">✏️</button>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { auth, db } from "@/firebase.js";
@@ -88,19 +63,70 @@ function cancelEdit() {
   editing.value = false;
   newUsername.value = "";
 }
+// Helper für CSS Expand Animation
+function beforeEnter(el) {
+  el.style.height = "0";
+  el.style.opacity = "0";
+}
+function enter(el, done) {
+  const height = el.scrollHeight + "px";
+  el.style.transition = "height 0.4s ease, opacity 0.4s ease";
+  requestAnimationFrame(() => {
+    el.style.height = height;
+    el.style.opacity = "1";
+  });
+  setTimeout(done, 400);
+}
+function leave(el, done) {
+  el.style.transition = "height 0.3s ease, opacity 0.3s ease";
+  el.style.height = "0";
+  el.style.opacity = "0";
+  setTimeout(done, 300);
+}
 </script>
+
+<template>
+  <div class="username-container">
+    <!-- Falls der Nutzer noch keinen Namen hat ODER bearbeiten aktiv ist -->
+    <transition @before-enter="beforeEnter" @enter="enter" @leave="leave">
+      <div
+        v-if="!username || editing"
+        class="username-setup animated-container"
+      >
+        <p>Wähle einen Namen:</p>
+        <input v-model="newUsername" id="username" placeholder="Username" />
+        <div class="buttons">
+          <button @click="setUsername">Speichern</button>
+          <button v-if="username" @click="cancelEdit" class="cancel-btn">
+            Abbrechen
+          </button>
+        </div>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      </div>
+
+      <!-- Falls Nutzer bereits einen Namen hat -->
+      <div v-else class="username-display">
+        <div class="username-display2 animated-container">
+          <p>Willkommen, {{ username }}!</p>
+          <button @click="editUsername" class="edit-btn">✏️</button>
+        </div>
+      </div>
+    </transition>
+  </div>
+</template>
 
 <style scoped>
 .username-container {
+  padding: 1rem;
   text-align: center;
-  margin-top: 20px;
+  overflow: hidden;
+  /* background: green; */
 }
 
 .username-setup {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
 }
 
 input {

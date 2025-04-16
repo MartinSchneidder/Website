@@ -1,6 +1,8 @@
 <template>
-  <Userdata class="Userdata" />
-  <GroupOverview class="GroupOverview" />
+  <div class="container">
+    <Userdata class="Userdata" />
+    <GroupOverview class="GroupOverview" />
+  </div>
 </template>
 
 <script setup>
@@ -9,19 +11,14 @@ import GroupOverview from "../components/GroupOverview.vue";
 </script>
 
 <style scoped>
-/* .Userdata {
-  background: green;
-}
 .GroupOverview {
-  background: red;
-} */
-
-.GroupOverview {
-  /* background: red; */
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
 }
-.Userdata {
-  /* background: green; */
-  padding: 1rem;
+.container {
+  height: 100%;
+  /* background: firebrick; */
 }
 </style>

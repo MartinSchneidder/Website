@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <div class="groups-container">
-    <h2>🌿 Deine Gruppen</h2>
+    <h2 class="headline">🌿 Deine Gruppen</h2>
 
     <div v-if="groups.length > 0" class="group-list">
       <router-link
@@ -71,8 +71,15 @@ onMounted(() => {
 
 <style scoped>
 .groups-container {
-  padding: 2rem;
+  /* height: 100%; */
+  margin: 0;
+  padding: 0;
+
+  /* background: rgb(255, 0, 0); */
   font-family: "Segoe UI", "Noto Sans", sans-serif;
+}
+.headline {
+  margin-top: 0;
 }
 
 .group-list {

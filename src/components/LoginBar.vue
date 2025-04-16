@@ -1,48 +1,3 @@
-<template>
-  <div class="container">
-    <h1 class="headline">Bro-Bank</h1>
-
-    <form @submit.prevent="handleSubmit">
-      <!-- E-Mail Input mit Floating Label -->
-      <div class="input-group">
-        <input v-model="email" id="email" type="email" required />
-        <label :class="{ active: email }" for="email">E-Mail</label>
-      </div>
-
-      <!-- Passwort Input mit Floating Label -->
-      <div class="input-group">
-        <input v-model="password" id="password" type="password" required />
-        <label :class="{ active: password }" for="password">Passwort</label>
-      </div>
-
-      <!-- Registrierungsfelder mit sanfter Transition -->
-      <div class="register-fields" :class="{ expanded: isRegistering }">
-        <div class="input-group">
-          <input
-            v-model="confirmPassword"
-            id="confirmPassword"
-            type="password"
-            :required="isRegistering"
-          />
-          <label :class="{ active: confirmPassword }" for="confirmPassword"
-            >Passwort bestätigen</label
-          >
-        </div>
-      </div>
-
-      <!-- Buttons mit sanfter Transition -->
-      <div class="button-container" :class="{ shifted: isRegistering }">
-        <button type="submit">
-          {{ isRegistering ? "Registrieren" : "Login" }}
-        </button>
-        <button type="button" class="toggle-btn" @click="toggleRegister">
-          {{ isRegistering ? "Zurück zum Login" : "Registrieren" }}
-        </button>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script setup>
 import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
@@ -147,125 +102,195 @@ async function login() {
 // Umschalten zwischen Login & Registrierung
 function toggleRegister() {
   isRegistering.value = !isRegistering.value;
+  // Eingaben leeren:
+  email.value = "";
+  password.value = "";
+  confirmPassword.value = "";
 }
 </script>
 
+<template>
+  <div class="container">
+    <transition name="fade">
+      <h1 class="headline" v-if="!isRegistering">Bro-Bank</h1>
+    </transition>
+
+    <form @submit.prevent="handleSubmit" class="loginForm">
+      <div class="input-group">
+        <input v-model="email" id="email" type="email" required />
+        <label :class="{ active: email }" for="email">E-Mail</label>
+      </div>
+
+      <div class="input-group">
+        <input v-model="password" id="password" type="password" required />
+        <label :class="{ active: password }" for="password">Passwort</label>
+      </div>
+
+      <div class="register-fields" :class="{ expanded: isRegistering }">
+        <div class="input-group">
+          <input
+            v-model="confirmPassword"
+            id="confirmPassword"
+            type="password"
+            :required="isRegistering"
+          />
+          <label :class="{ active: confirmPassword }" for="confirmPassword"
+            >Passwort bestätigen</label
+          >
+        </div>
+      </div>
+
+      <!-- Buttons mit sanfter Transition -->
+      <div class="button-container" :class="{ shifted: isRegistering }">
+        <button type="submit">
+          {{ isRegistering ? "Registrieren" : "Login" }}
+        </button>
+        <button type="button" class="toggle-btn" @click="toggleRegister">
+          {{ isRegistering ? "Zurück" : "Registrieren" }}
+        </button>
+      </div>
+    </form>
+  </div>
+</template>
+
 <style scoped>
-.headline {
-  margin-top: 2rem;
-}
+/* Container im Grid-Bereich */
 .container {
+  width: 100%;
+  max-width: 400px;
+  max-height: 100%;
+  overflow-y: auto;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+  height: auto; /* statt 100% */
+}
+
+.headline {
+  font-size: 1.75rem;
+  text-align: center;
+  color: #2c3e50;
+}
+@media (max-height: 800px) {
+  .headline {
+    margin: 0;
+  }
+}
+
+/* Formular */
+.loginForm {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  gap: 1rem;
+  background: #ffffff;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 15vw;
-  max-width: 200px;
-  min-width: calc(var(--sidebar-min-width) - 1rem);
-}
-
-/* Floating Label Styling */
+/* Reusable input style */
 .input-group {
   position: relative;
-  margin-bottom: 30px;
+  display: flex;
 }
 
-input {
-  width: calc(100% - 20px);
-  padding: 12px 10px;
+.input-group input {
+  padding: 0.75rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: border-color 0.3s ease-in-out;
-  background-color: transparent;
+  border-radius: 0.5rem;
 }
 
-input:focus {
-  border-color: #007bff;
+.input-group input:focus {
   outline: none;
+  border-color: #3498db;
 }
 
-label {
+/* Labels */
+.input-group label {
   position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #aaa;
-  transition: all 0.3s ease-in-out;
+  top: 0.75rem;
+  left: 0.75rem;
+  color: #999;
+  transition: 0.3s;
   pointer-events: none;
 }
 
-input:focus + label,
-label.active {
-  top: -10px;
+.input-group input:focus + label,
+.input-group label.active {
+  top: -0.6rem;
+  left: 0.5rem;
+  font-size: 0.75rem;
+  background: white;
+  padding: 0 0.25rem;
+  color: #3498db;
+  z-index: 1;
 }
 
-/* Button Styling */
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* margin-top: 0px; */
-  transition: margin-top 0.3s ease;
-}
-
-/* Wenn die Registrierungsfelder sichtbar sind, verschieben sich die Buttons */
-.button-container.shifted {
-  margin-top: 2.5rem;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  margin-top: 2rem;
-  transition:
-    background-color 0.3s ease,
-    transform 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-/* Register/Umschalten-Button */
-.toggle-btn {
-  background: none;
-  color: #007bff;
-  border: none;
-  cursor: pointer;
-  margin-top: 1rem;
-  text-decoration: underline;
-  transition: color 0.3s ease;
-}
-
-.toggle-btn:hover {
-  color: #ffffff;
-}
-
-/* Smooth Expand für Registrierungsfelder */
+/* Register-Felder */
 .register-fields {
-  height: 0;
-  opacity: 0;
+  display: flex;
+  max-height: 0;
   overflow: hidden;
-  transition:
-    height 0.4s ease-in-out,
-    opacity 0.4s ease-in-out;
+  transition: max-height 0.5s ease-in-out;
 }
 
 .register-fields.expanded {
-  opacity: 1;
-  overflow: visible;
-  max-height: 100px; /* Genug Platz für das Feld*/
+  max-height: 10rem;
+}
+
+/* Button-Container */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.button-container.shifted {
+  transform: translateY(10px);
+}
+
+/* Buttons */
+button {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: none;
+  background: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+.toggle-btn {
+  background: none;
+  color: #3498db;
+
+  outline: none;
+}
+
+.toggle-btn:hover {
+  background: #ececec;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+input {
+  padding: 0;
+  margin: 0;
 }
 </style>
