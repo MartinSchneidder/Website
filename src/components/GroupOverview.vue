@@ -74,7 +74,7 @@ onMounted(() => {
   /* height: 100%; */
 
   padding-bottom: 1rem;
-  background: rgb(255, 0, 0);
+  /* background: rgb(255, 0, 0); */
   font-family: "Segoe UI", "Noto Sans", sans-serif;
 }
 .headline {
