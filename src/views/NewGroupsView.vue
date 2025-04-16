@@ -15,7 +15,7 @@ import JoinGroup from "../components/JoinGroup.vue";
 .containerNewGroups {
   display: flex;
   flex-direction: column;
-  gap: 10vh;
+  gap: 5vh;
   align-items: center;
   justify-content: center;
   /* background: red; */

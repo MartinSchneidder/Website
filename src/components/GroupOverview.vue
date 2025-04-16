@@ -72,8 +72,6 @@ onMounted(() => {
 <style scoped>
 .groups-container {
   /* height: 100%; */
-
-  padding-bottom: 1rem;
   /* background: rgb(255, 0, 0); */
   font-family: "Segoe UI", "Noto Sans", sans-serif;
 }
@@ -84,7 +82,7 @@ onMounted(() => {
 .group-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  padding: 1rem;
 }
 
 .group-link {
