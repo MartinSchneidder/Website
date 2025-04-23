@@ -1,3 +1,4 @@
+<!-- OLDVERSION -->
 <script setup>
 import { computed, ref } from "vue";
 import { useAuthStore } from "@/pinia/authStore";
@@ -22,6 +23,7 @@ const user = computed(() => authStore.user);
         <NavBar />
       </header>
     </template>
+
     <main class="content">
       <router-view />
     </main>
@@ -49,10 +51,13 @@ const user = computed(() => authStore.user);
   overflow: hidden;
 }
 
-/* Normaler Header bei eingeloggtem Zustand */
+/* Sticky Header bei eingeloggtem Zustand */
 .header {
-  /* siehe NavBar */
   height: 10vh;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .content {

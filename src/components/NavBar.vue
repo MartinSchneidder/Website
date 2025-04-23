@@ -32,7 +32,7 @@ const logout = async () => {
 
     <ul class="nav-links">
       <li><router-link to="/home" class="nav-btn">🏠</router-link></li>
-      <li><router-link to="/newgroups" class="nav-btn">👥</router-link></li>
+      <li><router-link to="/newgroups" class="nav-btn">➕👥</router-link></li>
       <li><button class="nav-btn" @click="logout">🚪</button></li>
     </ul>
   </nav>

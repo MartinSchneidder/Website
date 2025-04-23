@@ -152,8 +152,8 @@ onMounted(async () => {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   list-style: none;
   transition:
-    transform 0.2s ease-in-out,
-    background 1s;
+    transform 0.5s cubic-bezier(0.76, -1.17, 0.23, 0.34),
+    background 0.5s cubic-bezier(0.79, -0.5, 0.23, 0.34);
 }
 
 .transaction-item:hover {

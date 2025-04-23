@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <div class="groups-container">
-    <h2 class="headline">🌿 Deine Gruppen</h2>
+    <h2 class="headline">💲 Deine Cash-Groups</h2>
 
     <div v-if="groups.length > 0" class="group-list">
       <router-link
