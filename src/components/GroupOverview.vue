@@ -45,7 +45,7 @@ onMounted(() => {
         class="group-link"
       >
         <fieldset class="group-fieldset">
-          <legend class="group-name">{{ group.name }}</legend>
+          <legend class="group-name shorter">{{ group.name }}</legend>
 
           <!-- Mitglieder anzeigen -->
           <div class="group-members">
@@ -110,9 +110,10 @@ onMounted(() => {
   font-size: 1.2rem;
   color: var(--color-font-colored);
   padding: 0 0.5rem;
-  white-space: nowrap;
+  white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 70vw;
 }
 
 .group-description {

@@ -1,6 +1,6 @@
 <template>
   <div v-if="group" class="group-view">
-    <h1>{{ group.name }}</h1>
+    <h1 class="groupname">{{ group.name }}</h1>
     <p>Bros einladen über: {{ group.id }}</p>
     <BalanceOverview />
     <!-- <TransactionForm /> -->
@@ -51,3 +51,16 @@ watchEffect(async () => {
   }
 });
 </script>
+
+<style scoped>
+.groupname {
+  max-width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 2rem;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>
+l

@@ -172,6 +172,7 @@ const submitTransaction = async () => {
 }
 
 .ghibli-card {
+  margin: 0;
   background: #ffffff;
   padding: 2rem;
   border-radius: 20px;
