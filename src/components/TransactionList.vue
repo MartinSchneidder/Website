@@ -1,9 +1,9 @@
 <!-- TransactionList.vue -->
-<!-- COMMENTS müssen gekürzt werden -->
 <template>
   <div class="transactions">
     <h2>📜 Transaktionen</h2>
     <ul>
+      <!-- TransaktionsCard -->
       <li
         v-for="transaction in transactions"
         :key="transaction.id"
@@ -31,7 +31,7 @@
         </div>
 
         <div class="transaction-body">
-          <p class="sender">
+          <p class="sender shorter">
             <strong>{{
               memberNames[transaction.createdBy] || "Unbekannt"
             }}</strong>
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <p v-if="transaction.comment" class="comment">
+          <p v-if="transaction.comment" class="comment shorter kommentar">
             📝 {{ transaction.comment }}
           </p>
         </div>
@@ -223,8 +223,11 @@ ul {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 40vw; /* oder was bei dir passt */
+  max-width: 300px; /* Abschneiden von langem Text */
   display: inline-block;
   vertical-align: bottom;
+}
+.kommentar {
+  white-space: wrap;
 }
 </style>
