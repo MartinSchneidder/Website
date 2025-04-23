@@ -182,7 +182,7 @@ const submitTransaction = async () => {
 }
 
 .ghibli-heading {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #4b4b4b;
   margin-bottom: 1.5rem;
@@ -274,13 +274,8 @@ const submitTransaction = async () => {
   cursor: pointer;
 }
 
-@media (max-width: 500px) {
+@media screen and (max-width: 800px) {
   .ghibli-card {
-    padding: 1.5rem;
-  }
-
-  .ghibli-heading {
-    font-size: 1.4rem;
   }
 }
 </style>

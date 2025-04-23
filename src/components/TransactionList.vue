@@ -1,4 +1,5 @@
 <!-- TransactionList.vue -->
+<!-- COMMENTS müssen gekürzt werden -->
 <template>
   <div class="transactions">
     <h2>📜 Transaktionen</h2>
@@ -37,18 +38,18 @@
             <span v-if="transaction.createdAt" class="date"
               >({{ formatDate(transaction.createdAt) }})</span
             >
+            <br />An:
           </p>
 
           <div class="receiver" v-if="transaction.members">
-            An:
-            <div class="member-list">
+            <div class="member-list shorter">
               <span
                 v-for="(memberId, index) in transaction.members"
                 :key="memberId"
                 class="member-name"
                 :title="memberNames[memberId] || '❓'"
               >
-                {{ memberNames[memberId] || "❓" }}
+                {{ memberNames[memberId] || "❓" }}<br />
                 <span v-if="index < transaction.members.length - 1"
                   >,&nbsp;</span
                 >
@@ -144,17 +145,20 @@ onMounted(async () => {
 }
 
 .transaction-item {
-  background: #fff;
+  background: #fbfbf9;
   padding: 16px;
   margin: 10px 10px;
   border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   list-style: none;
-  transition: transform 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    background 1s;
 }
 
 .transaction-item:hover {
-  transform: scale(1.02);
+  transform: scale(0.95);
+  background: var(--color-background-colored);
 }
 
 .transaction-header {
@@ -213,5 +217,14 @@ onMounted(async () => {
 ul {
   margin: 0;
   padding: 0;
+}
+
+.shorter {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40vw; /* oder was bei dir passt */
+  display: inline-block;
+  vertical-align: bottom;
 }
 </style>

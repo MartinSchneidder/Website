@@ -149,11 +149,15 @@ onMounted(() => {
   padding: 0.3rem 0.6rem;
   border-radius: 12px;
   font-size: 0.85rem;
-  max-width: 10rem; /* Begrenzung */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  vertical-align: middle;
+}
+@media screen and (max-width: 800px) {
+  .member {
+    max-width: 70vw; /* Anzeige Begrenzung */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+  }
 }
 </style>
