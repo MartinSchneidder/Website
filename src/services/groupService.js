@@ -10,23 +10,29 @@ import {
   where,
   getDocs,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 
 //Gruppe erstellen
-// Der Name wird auch initial das Codeword zum joinen einer Gruppe
-export async function createGroup(name, codeword) {
+// Die ID wird auch initial das Codeword zum joinen einer Gruppe
+export async function createGroup(name) {
   if (!auth.currentUser) return;
 
   try {
-    const docRef = await addDoc(collection(db, "groups"), {
+    // Neue ID generieren
+    const groupRef = doc(collection(db, "groups"));
+    const groupId = groupRef.id;
+
+    // Dokument mit selbst gesetzter ID anlegen
+    await setDoc(groupRef, {
       name,
       ownerId: auth.currentUser.uid,
       members: [auth.currentUser.uid],
-      codeword: codeword,
+      codeword: groupId, // ID als Codeword verwenden
       createdAt: serverTimestamp(),
     });
 
-    console.log("Gruppe erstellt mit ID:", docRef.id);
+    console.log("Gruppe erstellt mit ID:", groupId);
   } catch (error) {
     console.error("Fehler beim Erstellen der Gruppe:", error);
   }

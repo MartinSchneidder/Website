@@ -1,7 +1,7 @@
 <template>
   <div v-if="group" class="group-view">
     <h1>{{ group.name }}</h1>
-    <!-- <p>{{ group.description }}</p> -->
+    <p>Bros einladen über: {{ group.id }}</p>
     <BalanceOverview />
     <!-- <TransactionForm /> -->
     <TransactionForm2 :members="groupMembers" />

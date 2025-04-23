@@ -29,7 +29,7 @@ const handleCreateGroup = async () => {
   }
 
   try {
-    await createGroup(groupName.value, groupName.value);
+    await createGroup(groupName.value);
     successMessage.value = "Gruppe erfolgreich erstellt!";
     groupName.value = ""; // Eingabefeld leeren
     errorMessage.value = ""; // Fehler zurücksetzen
