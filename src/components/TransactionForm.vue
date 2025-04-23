@@ -177,7 +177,7 @@ const submitTransaction = async () => {
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(100, 100, 100, 0.1);
   border: 2px solid var(--color-border);
-  max-width: 50vw;
+  max-width: 50rem;
   width: 100%;
 }
 

@@ -1,21 +1,42 @@
 <template>
   <div class="container">
     <h2>Gruppe beitreten</h2>
-    <input v-model="codeword" name="codeword" placeholder="Codewort eingeben" />
+    <input
+      v-model="codeword"
+      name="codeword"
+      placeholder="Codewort eingeben"
+      @input="clearError"
+    />
     <button @click="joinGroup">Beitreten</button>
-
-    <p v-if="successMessage" class="success">{{ successMessage }}</p>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { joinGroupByCode } from "@/services/groupService.js";
+import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const codeword = ref("");
 const successMessage = ref("");
 const errorMessage = ref("");
+const clearError = () => {
+  errorMessage.value = "";
+};
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-left",
+  // background: "url(src/assets/spider.gif)",
+  // background: "#12345678",
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
 
 const joinGroup = async () => {
   if (!codeword.value.trim()) {
@@ -26,11 +47,20 @@ const joinGroup = async () => {
   try {
     const success = await joinGroupByCode(codeword.value);
     if (success) {
-      successMessage.value = "Du bist der Gruppe erfolgreich beigetreten!";
-      errorMessage.value = "";
+      Toast.fire({
+        icon: "success",
+        title: "Du bist der Gruppe erfolgreich beigetreten!",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      router.push("/group/" + codeword.value);
     } else {
-      errorMessage.value = "Ungültiges Codewort.";
-      successMessage.value = "";
+      Toast.fire({
+        icon: "error",
+        title: "Ungültiges Codewort!",
+        showConfirmButton: false,
+        timer: 0,
+      });
     }
   } catch (error) {
     console.error("Fehler beim Beitreten:", error);
@@ -54,6 +84,7 @@ const joinGroup = async () => {
   }
 }
 input {
+  box-sizing: border-box;
   width: 100%;
   padding: 8px;
   margin: 10px 0;
@@ -70,11 +101,5 @@ button {
 }
 button:hover {
   background: #369f74;
-}
-.success {
-  color: green;
-}
-.error {
-  color: red;
 }
 </style>

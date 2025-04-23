@@ -17,10 +17,26 @@
 <script setup>
 import { ref } from "vue";
 import { createGroup } from "@/services/groupService.js";
+import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
+const router = useRouter();
 const groupName = ref("");
 const successMessage = ref("");
 const errorMessage = ref("");
+const Toast = Swal.mixin({
+  toast: true,
+  position: "bottom-left",
+  // background: "url(src/assets/spider.gif)",
+  // background: "#12345678",
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.onmouseenter = Swal.stopTimer;
+    toast.onmouseleave = Swal.resumeTimer;
+  },
+});
 
 const handleCreateGroup = async () => {
   if (!groupName.value.trim()) {
@@ -33,10 +49,23 @@ const handleCreateGroup = async () => {
     successMessage.value = "Gruppe erfolgreich erstellt!";
     groupName.value = ""; // Eingabefeld leeren
     errorMessage.value = ""; // Fehler zurücksetzen
+    Toast.fire({
+      icon: "success",
+      title: "Gruppe erfolgreich erstellt!",
+      showConfirmButton: false,
+      timer: 2500,
+    });
   } catch (error) {
     errorMessage.value = "Fehler beim Erstellen der Gruppe.";
     console.error(error);
+    Toast.fire({
+      icon: "error",
+      title: "Fehler beim Erstellen der Gruppe!",
+      showConfirmButton: false,
+      timer: 0,
+    });
   }
+  router.push("/home");
 };
 </script>
 
@@ -54,6 +83,7 @@ const handleCreateGroup = async () => {
   }
 }
 input {
+  box-sizing: border-box;
   width: 100%;
   padding: 8px;
   margin: 10px 0;
