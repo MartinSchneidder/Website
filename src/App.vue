@@ -1,4 +1,3 @@
-<!-- OLDVERSION -->
 <script setup>
 import { computed, ref } from "vue";
 import { useAuthStore } from "@/pinia/authStore";
